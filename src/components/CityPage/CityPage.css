@@ -216,6 +216,8 @@ h2 {
 }
 
   .city-page {
+    background-position: center top !important;
+    background-attachment: local !important;  
     position: relative;
     perspective: 1px;
     transform-style: preserve-3d;
@@ -246,5 +248,97 @@ h2 {
     position: relative;
     z-index: 1;
     min-height: 200vh;         
+  }
+  
+
+/* ====== Two-Column Layout ====== */
+.main-layout {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 60px;
+    margin-top: 60px;
+    padding: 0 40px;
+  }
+  
+  /* LEFT COLUMN */
+  .main-left {
+    flex: 1;
+    max-width: 60%;
+  }
+  
+  /* VERTICAL donut layout */
+  .donut-charts-container.vertical {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 48px; /* was 40, made a bit bigger for 3 donuts */
+  }
+  
+  /* SIDEBAR (RIGHT COLUMN) */
+  .sidebar {
+    position: fixed;
+    right: 60px;
+    top: 120px;
+    width: 280px;
+    background-color: rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 10px;
+    padding: 20px;
+    color: rgb(230, 230, 230);
+    backdrop-filter: blur(6px);
+    overflow-y: auto;
+    max-height: 70vh;
+  }
+  
+  .sidebar-title {
+    font-size: 18px;
+    font-weight: bold;
+    color: #C5FBA3;
+    margin-bottom: 15px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    padding-bottom: 5px;
+  }
+  
+  .sidebar-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  
+  .sidebar-judge-card {
+    background-color: rgba(255, 255, 255, 0.05);
+    padding: 10px 12px;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    transition: background 0.2s;
+  }
+  
+  .sidebar-judge-card:hover {
+    background-color: rgba(255, 255, 255, 0.15);
+  }
+  
+  .sidebar-judge-name {
+    font-size: 15px;
+    font-weight: 500;
+  }
+  
+  .sidebar-judge-cases {
+    font-size: 13px;
+    color: #90969c;
+  }
+  
+  .sidebar-judge-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .sidebar-judge-rate {
+    font-size: 14px;
+    font-weight: bold;
+    color: #C5FBA3;
   }
   
