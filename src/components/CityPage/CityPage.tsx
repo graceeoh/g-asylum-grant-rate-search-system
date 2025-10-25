@@ -6,6 +6,7 @@ import judgeData from "../../data/judge_grant_rates.json";
 import DonutChart from "../DonutChart/DonutChart.tsx";
 import Tooltip from "../Tooltip/Tooltip.tsx";
 import DropdownMenu from "../DropdownMenu/DropdownMenu.tsx";
+import sanFranciscoMap from "../../assets/SanFrancisco.png";
 
 interface Judge {
     city: string;
@@ -20,6 +21,10 @@ interface CityPageProps {
     currentLanguage: string;
 }
 
+const cityImages: Record<string, string> = {
+    "San Francisco": require("../../assets/SanFrancisco.png")
+  };
+  
 const parsePercentage = (value: string | number | undefined): number => {
     if (typeof value === "number") return value;
     if (!value) return 0;
@@ -62,9 +67,9 @@ const SORT_OPTIONS = [
 
 function CityPage({ currentLanguage }: CityPageProps) {
     const params = useParams<{ cityName: string }>();
-    const city = params.cityName;
-
-    const cityJudgesObj = judgeData[city || ""] || {};
+    const city = params.cityName || "San Francisco";
+    const bg = cityImages[city] || cityImages["San Francisco"];
+        const cityJudgesObj = judgeData[city || ""] || {};
     const cityJudges: Judge[] = Object.values(cityJudgesObj).map((judge) => ({
         ...judge,
         granted_asylum_percentage: parsePercentage(
@@ -270,8 +275,21 @@ function CityPage({ currentLanguage }: CityPageProps) {
             ? "Este número es el porcentaje de casos en esta ciudad donde se denegaron, ya sea asilo u otro tipo de alivio."
             : "Nimewo sa a se pousantaj ka nan vil sa a ki te refize, kit se azil oswa lòt sekou.";
     return (
-        <div className='city-page'>
-            <div className='header-section'>
+        <div
+        className="city-page"
+        style={{
+          backgroundImage: `
+          linear-gradient(145deg, rgba(15,17,23,0.45), rgba(26,30,38,0.45)),
+          url(${bg})
+          `,
+          backgroundPosition: "30% center",
+          backgroundSize: "60%",
+          backgroundRepeat: "no-repeat",
+          backgroundAttachment: "fixed",
+          minHeight: "100vh",
+        }}
+      >
+                <div className='header-section'>
                 <div className='city-title-description'>
                     <h2 className='section-header city-title'>{city}</h2>
                     <h1 className='city-descriptor label'>{cityLabel}</h1>

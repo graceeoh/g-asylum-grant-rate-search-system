@@ -212,3 +212,11 @@ h2 {
 .dropdown-menu {
     margin-left: 5px; /* Ensure a small gap between "Sort by" and the dropdown */
 }
+.city-page {
+  min-height: 100vh;
+  width: 100%;
+  background-size: contain;   
+  background-position: center top; 
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+}
