@@ -278,16 +278,15 @@ function CityPage({ currentLanguage }: CityPageProps) {
         <div
         className="city-page"
         style={{
-          backgroundImage: `
-          linear-gradient(145deg, rgba(15,17,23,0.45), rgba(26,30,38,0.45)),
-          url(${bg})
-          `,
-          backgroundPosition: "30% center",
-          backgroundSize: "60%",
+          backgroundColor:'rgba(0, 191, 255,0)',
+          backgroundPosition: "left top",
+          backgroundSize: "80%",
           backgroundRepeat: "no-repeat",
-          backgroundAttachment: "fixed",
-          minHeight: "100vh",
-        }}
+          backgroundAttachment: "scroll",
+          minHeight: "auto",
+          "--bg-image": `url(${bg})`,
+
+        } as React.CSSProperties }
       >
                 <div className='header-section'>
                 <div className='city-title-description'>
