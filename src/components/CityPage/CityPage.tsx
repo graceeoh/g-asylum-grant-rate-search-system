@@ -238,13 +238,13 @@ function CityPage({ currentLanguage }: CityPageProps) {
             ? "casos en"
             : "ka nan";
 
-    const wereGrantedAsylum =
-        currentLanguage === "en"
-            ? "were granted asylum, "
-            : currentLanguage === "es"
-            ? "fueron otorgados asilo, "
-            : "te resevwa azil, ";
-
+            const wereGrantedAsylum =
+            currentLanguage === "en"
+              ? "were granted asylum or other forms of relief."
+              : currentLanguage === "es"
+              ? "fueron otorgados asilo u otros tipos de alivio."
+              : "te resevwa azil oswa lòt fòm sekou.";
+          
     const wereGrantedOtherRelief =
         currentLanguage === "en"
             ? "were granted other relief, and "
