@@ -15,4 +15,9 @@
     transform: rotate(-90deg) translateY(-100px);
     transform-origin: 50% 50%;
   }
+
+  .asylum-granted-donut-chart .donut-segment {
+    stroke: #6CAF5C !important; /* darker green */
+  }
+  
   

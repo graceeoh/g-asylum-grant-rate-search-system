@@ -323,7 +323,9 @@ function CityPage({ currentLanguage }: CityPageProps) {
                   {/* --- AVERAGE RATES --- */}
                   <div className="rates-section">
                     <h2 className="section-header rates">{averageRatesLabel}</h2>
-      
+                    <p className="national-average-note">
+                        <span className="dash-example">— - — </span> indicates the U.S. national average rate for comparison.
+                    </p>
                     <div className="donut-charts-container vertical">
                       {/* ASYLUM GRANTED */}
                       <div className="donut-row">
@@ -332,10 +334,10 @@ function CityPage({ currentLanguage }: CityPageProps) {
                             <DonutChart
                               title={asylumGranted}
                               percentage={avgAsylumGrantRate}
+                              nationalAverage={45} // 🟢 U.S. average asylum grant rate
                               className="asylum-granted-donut-chart"
                               size={180}
                               strokeWidth={20}
-                              color={"#C5FBA3"}
                             />
                           </div>
                           <div className="donut-chart-description">
@@ -367,6 +369,7 @@ function CityPage({ currentLanguage }: CityPageProps) {
                             <DonutChart
                               title={otherRelief}
                               percentage={avgOtherGrantRate}
+                              nationalAverage={12} // 🟡 U.S. average for other relief
                               className="other-relief-donut-chart"
                               size={180}
                               strokeWidth={20}
@@ -402,6 +405,7 @@ function CityPage({ currentLanguage }: CityPageProps) {
                             <DonutChart
                               title={denied}
                               percentage={avgDeniedRate}
+                              nationalAverage={43} // 🔴 U.S. average denial rate
                               className="denied-donut-chart"
                               size={180}
                               strokeWidth={20}
@@ -455,79 +459,72 @@ function CityPage({ currentLanguage }: CityPageProps) {
       
             {/* --- SIDEBAR (slides out) --- */}
             <div className={`sidebar ${sidebarOpen ? "open" : ""}`}>
-  <div className="sidebar-content">
-    <h3 className="sidebar-title">Judges in {city}</h3>
-
-    {/* === Sort Dropdown for Sidebar === */}
-    <div className="sidebar-sort">
-      <label htmlFor="sidebar-sort-select" className="sidebar-sort-label">
-        {sortByLabel}:
-      </label>
-      <select
-        id="sidebar-sort-select"
-        className="sidebar-sort-select"
-        value={sortValue}
-        onChange={(e) => setSortValue(e.target.value)}
-      >
-        {dropdownOptions.map((opt) => (
-          <option key={opt.value} value={opt.value}>
-            {opt.label}
-          </option>
-        ))}
-      </select>
-    </div>
-
-    <div className="sidebar-list">
-    {sortedJudges.length > 0 &&
-  sortedJudges.map((judge, index) => (
-    <Link
-      to={`/judge/${encodeURIComponent(judge.judge_name)}`}
-      key={judge.judge_name}
-      className="sidebar-judge-link"
-      onClick={() => setSidebarOpen(false)}
-    >
-      <div
-        className="sidebar-judge-card"
-        style={{ animationDelay: `${index * 0.05}s` }}  // ✅ must be inside the opening tag, not as text!
-      >
-        <div className="sidebar-judge-row">
-          <div className="sidebar-judge-left">
-            <span className="sidebar-judge-name">{judge.judge_name}</span>
-            <span className="sidebar-judge-cases">
-              {judge.total_decisions} cases
-            </span>
-          </div>
-
-          {/* ✅ Tiny donut on the far right */}
-          <div className="sidebar-mini-donut">
-            <DonutChart
-              title=" "
-              percentage={Number(parsePercentage(judge.granted_asylum_percentage))}
-              size={40}
-              strokeWidth={5}
-              color={
-                parsePercentage(judge.granted_asylum_percentage) > 60
-                  ? "#C5FBA3"
-                  : parsePercentage(judge.granted_asylum_percentage) > 30
-                  ? "#FFD166"
-                  : "#FF7A7A"
-              }
-            />
-            <span className="sidebar-mini-percent">
-              {parsePercentage(judge.granted_asylum_percentage).toFixed(0)}%
-            </span>
-          </div>
-        </div>
-      </div>
-    </Link>
-  ))}
-
-
+              <div className="sidebar-content">
+                <h3 className="sidebar-title">Judges in {city}</h3>
+      
+                {/* === Sort Dropdown for Sidebar === */}
+                <div className="sidebar-sort">
+                  <label htmlFor="sidebar-sort-select" className="sidebar-sort-label">
+                    {sortByLabel}:
+                  </label>
+                  <select
+                    id="sidebar-sort-select"
+                    className="sidebar-sort-select"
+                    value={sortValue}
+                    onChange={(e) => setSortValue(e.target.value)}
+                  >
+                    {dropdownOptions.map((opt) => (
+                      <option key={opt.value} value={opt.value}>
+                        {opt.label}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+      
+                <div className="sidebar-list">
+                  {sortedJudges.length > 0 &&
+                    sortedJudges.map((judge, index) => (
+                      <Link
+                        to={`/judge/${encodeURIComponent(judge.judge_name)}`}
+                        key={judge.judge_name}
+                        className="sidebar-judge-link"
+                        onClick={() => setSidebarOpen(false)}
+                      >
+                        <div
+                          className="sidebar-judge-card"
+                          style={{ animationDelay: `${index * 0.05}s` }}
+                        >
+                          <div className="sidebar-judge-row">
+                            <div className="sidebar-judge-left">
+                              <span className="sidebar-judge-name">
+                                {judge.judge_name}
+                              </span>
+                              <span className="sidebar-judge-cases">
+                                {judge.total_decisions} cases
+                              </span>
+                            </div>
+      
+                            {/* ✅ Tiny donut on the far right */}
+                            <div className="sidebar-mini-donut">
+                              <DonutChart
+                                title=" "
+                                percentage={Number(
+                                  parsePercentage(judge.granted_asylum_percentage)
+                                )}
+                                size={40}
+                                strokeWidth={5}
+                              />
+                            </div>
+                          </div>
+                        </div>
+                      </Link>
+                    ))}
                 </div>
               </div>
             </div>
           </div>
         </div>
       );
+      
                                 }
                                 export default CityPage;
