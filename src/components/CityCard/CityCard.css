@@ -54,3 +54,39 @@
     margin-left: 40px;
     margin-top: 20px;
 }
+
+.city-card {
+    transition: background-color 0.25s ease, transform 0.25s ease;
+  }
+  
+  /* Make sure it matches the wrapping div class if needed */
+  .judge-card {
+    transition: background-color 0.25s ease, transform 0.25s ease;
+  }
+  
+  /* Default city name style */
+  .city-name {
+    color: #fff;
+    transition: color 0.25s ease, text-shadow 0.25s ease;
+  }
+  
+  /* 🌿 On hover: turn green & glow */
+  .city-card:hover .city-name,
+  .judge-card:hover .city-name {
+    color: #B9F36D;
+    text-shadow: 0 0 8px rgba(185, 243, 109, 0.4);
+  }
+  
+  /* Soft background lift when hovered */
+  .city-card:hover,
+  .judge-card:hover {
+    background-color: rgba(185, 243, 109, 0.05);
+    transform: translateY(-2px);
+  }
+  
+  /* Remove link underline */
+  .city-card a,
+  .judge-card a {
+    text-decoration: none;
+  }
+  

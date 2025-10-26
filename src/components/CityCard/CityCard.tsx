@@ -67,9 +67,9 @@ const CityCard: React.FC<CityCardProps> = ({
                     size={115}
                     strokeWidth={17}
                 />
-                <Link to={`/city/${city}`}>
-                    <h3>{city}</h3>
-                </Link>
+                    <Link to={`/city/${city}`}>
+                    <h3 className="city-name">{city}</h3>
+                    </Link>
                 <p style={{ marginLeft: "30px" }}>
                     {judgeCount} {judgesCountLabel}
                 </p>

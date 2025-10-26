@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import "./DonutChart.css";
 
 interface DonutChartProps {
@@ -7,7 +7,8 @@ interface DonutChartProps {
   strokeWidth?: number;
   color?: string;
   fontSize?: string;
-  nationalAverage?: number; // optional dashed tick marker
+  nationalAverage?: number;
+  animate?: boolean;
 }
 
 const DonutChart: React.FC<DonutChartProps> = ({
@@ -17,43 +18,52 @@ const DonutChart: React.FC<DonutChartProps> = ({
   color,
   fontSize,
   nationalAverage,
+  animate = true,
 }) => {
-  // Geometry
   const r = (size - strokeWidth) / 2;
   const C = 2 * Math.PI * r;
   const center = size / 2;
 
-  // Start animation from 0 fill → final percentage
-  const [dashOffset, setDashOffset] = useState(C); // initially empty ring
+  const hasAnimated = useRef(false);
+  const [dashOffset, setDashOffset] = useState(C);
 
+  // ✅ clean, single useEffect (handles both mount + sidebar animation)
   useEffect(() => {
-    const timeout = setTimeout(() => {
-      setDashOffset(C * (1 - percentage / 100));
-    }, 50); // small delay to trigger animation after mount
-    return () => clearTimeout(timeout);
-  }, [C, percentage]);
+    const targetOffset = C * (1 - percentage / 100);
+  
+    // When animate=true (like sidebarOpen), restart animation from empty ring
+    if (animate) {
+      setDashOffset(C); // start at 0%
+      const timeout = setTimeout(() => {
+        setDashOffset(targetOffset); // animate fill
+      }, 100); // small delay ensures re-render
+      return () => clearTimeout(timeout);
+    } else {
+      // If animation not triggered, just render at final value
+      setDashOffset(targetOffset);
+    }
+  }, [animate, percentage, C]);
+  
 
-  // pick stroke color
-  let strokeColor = color;
-  if (!strokeColor) {
-    if (percentage > 67) strokeColor = "#9DE580"; // darker green
-    else if (percentage >= 33) strokeColor = "#FFBD7A";
-    else strokeColor = "#FF7A7A";
-  }
+  // ✅ color logic (green/red only)
+  const strokeColor = color || (percentage >= 50 ? "#6CAF5C" : "#FF7A7A");
+  const labelSize =
+    fontSize ||
+    (size <= 50
+      ? `${size * 0.3}px` // smaller for sidebar donuts
+      : size < 100
+      ? `${size * 0.22}px`
+      : `${size * 0.18}px`);
 
-  // font size scaling
-  if (!fontSize) {
-    fontSize = size < 60 ? `${size * 0.45}px` : `${size * 0.22}px`;
-  }
+  const shouldRotate = true;
 
-  // --- optional national average tick ---
+  // --- national average tick ---
   let avgTick: React.ReactNode = null;
   if (nationalAverage !== undefined) {
     const angleDeg = (nationalAverage / 100) * 360;
+    const rad = (angleDeg * Math.PI) / 180;
     const innerR = r - strokeWidth / 2;
     const outerR = r + strokeWidth / 2;
-    const rad = (angleDeg * Math.PI) / 180;
-
     const x1 = center + Math.cos(rad) * innerR;
     const y1 = center + Math.sin(rad) * innerR;
     const x2 = center + Math.cos(rad) * outerR;
@@ -75,25 +85,20 @@ const DonutChart: React.FC<DonutChartProps> = ({
   }
 
   return (
-    <svg
-      width={size}
-      height={size}
-      viewBox={`0 0 ${size} ${size}`}
-      className="donut-chart"
-    >
+    <svg width={size} height={size} viewBox={`0 0 ${size} ${size}`}>
       {/* background ring */}
       <circle
         cx={center}
         cy={center}
         r={r}
         fill="transparent"
-        stroke="#2a2d2a"
-        strokeOpacity={0.9}
+        stroke="#2A2D2A"
+        strokeOpacity={0.5}
         strokeWidth={strokeWidth}
       />
 
-      {/* main ring + national avg tick */}
-      <g transform={`rotate(-90 ${center} ${center})`}>
+      {/* main ring */}
+      <g transform={shouldRotate ? `rotate(-90 ${center} ${center})` : undefined}>
         <circle
           cx={center}
           cy={center}
@@ -105,21 +110,20 @@ const DonutChart: React.FC<DonutChartProps> = ({
           strokeDashoffset={dashOffset}
           strokeLinecap={size < 50 ? "butt" : "round"}
           style={{
-            transition:
-              "stroke-dashoffset 1.2s cubic-bezier(0.65, 0, 0.35, 1)",
+            transition: "stroke-dashoffset 1.2s cubic-bezier(0.65, 0, 0.35, 1)",
           }}
         />
         {avgTick}
       </g>
 
-      {/* centered percentage text */}
+      {/* percentage label */}
       <text
         x="50%"
         y="50%"
         textAnchor="middle"
-        dy=".45em"
+        dy=".35em"
         fill="white"
-        fontSize={fontSize}
+        fontSize={labelSize}
         fontWeight={600}
       >
         {`${Math.round(percentage)}%`}

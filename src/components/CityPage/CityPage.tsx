@@ -279,10 +279,59 @@ function CityPage({ currentLanguage }: CityPageProps) {
             : currentLanguage === "es"
             ? "Este número es el porcentaje de casos en esta ciudad donde se denegaron, ya sea asilo u otro tipo de alivio."
             : "Nimewo sa a se pousantaj ka nan vil sa a ki te refize, kit se azil oswa lòt sekou.";
+    // --- Sidebar labels ---
+    const judgesInLabel =
+    currentLanguage === "en"
+    ? "Judges in"
+    : currentLanguage === "es"
+    ? "Jueces en"
+    : "Jij nan";
+
+    const showJudgesLabel =
+    currentLanguage === "en"
+    ? "Show Judges"
+    : currentLanguage === "es"
+    ? "Mostrar Jueces"
+    : "Montre Jij yo";
+
+    const hideJudgesLabel =
+    currentLanguage === "en"
+    ? "Hide Judges"
+    : currentLanguage === "es"
+    ? "Ocultar Jueces"
+    : "Kache Jij yo";
+
+    // --- City stats summary text ---
+    const asylumSummaryText =
+    currentLanguage === "en"
+    ? "were granted asylum."
+    : currentLanguage === "es"
+    ? "fueron otorgados asilo."
+    : "te resevwa azil.";
+
+    const otherReliefSummaryText =
+    currentLanguage === "en"
+    ? "received other relief."
+    : currentLanguage === "es"
+    ? "recibieron otro tipo de alivio."
+    : "resevwa lòt sekou.";
+
+    const deniedSummaryText =
+    currentLanguage === "en"
+    ? "were denied asylum or other forms of relief."
+    : currentLanguage === "es"
+    ? "fueron denegados asilo u otros tipos de alivio."
+    : "te refize azil oswa lòt fòm sekou.";
+
     const [sidebarOpen, setSidebarOpen] = useState(false);
 
-    console.log("Sidebar open:", sidebarOpen);
-    console.log("Sorted judges:", sortedJudges.length);
+    const nationalAverageNote =
+    currentLanguage === "en"
+    ? "indicates the U.S. national average rate for comparison."
+    : currentLanguage === "es"
+    ? "indica la tasa promedio nacional de EE. UU. para comparación."
+    : "endike pousantaj mwayèn nasyonal Etazini pou konparezon.";
+
     return (
         <div
           className={`city-page ${sidebarOpen ? "sidebar-open" : ""}`}
@@ -309,11 +358,16 @@ function CityPage({ currentLanguage }: CityPageProps) {
                       <div className="city-top-stats">
                         <div className="city-stats-box">
                           <p>
-                            <span className="asylum-granted">{asylumGrantedAmount}</span>{" "}
-                            {asylumGrantedAmount === 1 ? "case" : "cases"} out of{" "}
+                            <span className="asylum-granted">
+                              {asylumGrantedAmount + otherGrantedAmount}
+                            </span>{" "}
+                            {asylumGrantedAmount + otherGrantedAmount === 1
+                              ? "case"
+                              : "cases"}{" "}
+                            {outOf.toLowerCase()}{" "}
                             <span className="cases-amount">{casesAmount}</span> total{" "}
-                            {casesAmount === 1 ? "case" : "cases"} in {city} were granted
-                            asylum.
+                            {casesAmount === 1 ? "case" : "cases"} {caseIn} {city}{" "}
+                            {wereGrantedAsylum}
                           </p>
                         </div>
                       </div>
@@ -324,7 +378,7 @@ function CityPage({ currentLanguage }: CityPageProps) {
                   <div className="rates-section">
                     <h2 className="section-header rates">{averageRatesLabel}</h2>
                     <p className="national-average-note">
-                        <span className="dash-example">— - — </span> indicates the U.S. national average rate for comparison.
+                        <span className="dash-example">— - — </span> {nationalAverageNote}
                     </p>
                     <div className="donut-charts-container vertical">
                       {/* ASYLUM GRANTED */}
@@ -334,10 +388,11 @@ function CityPage({ currentLanguage }: CityPageProps) {
                             <DonutChart
                               title={asylumGranted}
                               percentage={avgAsylumGrantRate}
-                              nationalAverage={45} // 🟢 U.S. average asylum grant rate
+                              nationalAverage={45}
                               className="asylum-granted-donut-chart"
                               size={180}
                               strokeWidth={20}
+                              color="#6CAF5C"
                             />
                           </div>
                           <div className="donut-chart-description">
@@ -354,10 +409,11 @@ function CityPage({ currentLanguage }: CityPageProps) {
                         <div className="donut-textbox">
                           <p>
                             <span className="asylum-granted">{asylumGrantedAmount}</span>{" "}
-                            {asylumGrantedAmount === 1 ? "case" : "cases"} out of{" "}
+                            {asylumGrantedAmount === 1 ? "case" : "cases"}{" "}
+                            {outOf.toLowerCase()}{" "}
                             <span className="cases-amount">{casesAmount}</span> total{" "}
-                            {casesAmount === 1 ? "case" : "cases"} in {city} were granted
-                            asylum.
+                            {casesAmount === 1 ? "case" : "cases"} {caseIn} {city}{" "}
+                            {asylumSummaryText}
                           </p>
                         </div>
                       </div>
@@ -369,11 +425,11 @@ function CityPage({ currentLanguage }: CityPageProps) {
                             <DonutChart
                               title={otherRelief}
                               percentage={avgOtherGrantRate}
-                              nationalAverage={12} // 🟡 U.S. average for other relief
+                              nationalAverage={12}
                               className="other-relief-donut-chart"
                               size={180}
                               strokeWidth={20}
-                              color={"#C5FBA3"}
+                              color="#C5FBA3"
                             />
                           </div>
                           <div className="donut-chart-description">
@@ -390,10 +446,11 @@ function CityPage({ currentLanguage }: CityPageProps) {
                         <div className="donut-textbox">
                           <p>
                             <span className="other-granted">{otherGrantedAmount}</span>{" "}
-                            {otherGrantedAmount === 1 ? "case" : "cases"} out of{" "}
+                            {otherGrantedAmount === 1 ? "case" : "cases"}{" "}
+                            {outOf.toLowerCase()}{" "}
                             <span className="cases-amount">{casesAmount}</span> total{" "}
-                            {casesAmount === 1 ? "case" : "cases"} in {city} received other
-                            relief.
+                            {casesAmount === 1 ? "case" : "cases"} {caseIn} {city}{" "}
+                            {otherReliefSummaryText}
                           </p>
                         </div>
                       </div>
@@ -405,11 +462,11 @@ function CityPage({ currentLanguage }: CityPageProps) {
                             <DonutChart
                               title={denied}
                               percentage={avgDeniedRate}
-                              nationalAverage={43} // 🔴 U.S. average denial rate
+                              nationalAverage={43}
                               className="denied-donut-chart"
                               size={180}
                               strokeWidth={20}
-                              color={"#FF7A7A"}
+                              color="#FF7A7A"
                             />
                           </div>
                           <div className="donut-chart-description">
@@ -426,10 +483,11 @@ function CityPage({ currentLanguage }: CityPageProps) {
                         <div className="donut-textbox">
                           <p>
                             <span className="denied-amount">{deniedAmount}</span>{" "}
-                            {deniedAmount === 1 ? "case" : "cases"} out of{" "}
+                            {deniedAmount === 1 ? "case" : "cases"}{" "}
+                            {outOf.toLowerCase()}{" "}
                             <span className="cases-amount">{casesAmount}</span> total{" "}
-                            {casesAmount === 1 ? "case" : "cases"} in {city} were denied
-                            asylum or other forms of relief.
+                            {casesAmount === 1 ? "case" : "cases"} {caseIn} {city}{" "}
+                            {deniedSummaryText}
                           </p>
                         </div>
                       </div>
@@ -447,12 +505,12 @@ function CityPage({ currentLanguage }: CityPageProps) {
               {sidebarOpen ? (
                 <>
                   ➤
-                  <span className="sidebar-tooltip">Hide Judges</span>
+                  <span className="sidebar-tooltip">{hideJudgesLabel}</span>
                 </>
               ) : (
                 <>
                   ◄
-                  <span className="sidebar-tooltip">Show Judges</span>
+                  <span className="sidebar-tooltip">{showJudgesLabel}</span>
                 </>
               )}
             </button>
@@ -460,7 +518,9 @@ function CityPage({ currentLanguage }: CityPageProps) {
             {/* --- SIDEBAR (slides out) --- */}
             <div className={`sidebar ${sidebarOpen ? "open" : ""}`}>
               <div className="sidebar-content">
-                <h3 className="sidebar-title">Judges in {city}</h3>
+                <h3 className="sidebar-title">
+                  {judgesInLabel} {city}
+                </h3>
       
                 {/* === Sort Dropdown for Sidebar === */}
                 <div className="sidebar-sort">
@@ -507,12 +567,14 @@ function CityPage({ currentLanguage }: CityPageProps) {
                             {/* ✅ Tiny donut on the far right */}
                             <div className="sidebar-mini-donut">
                               <DonutChart
+                                key={`${judge.judge_name}-${sidebarOpen}`}
                                 title=" "
                                 percentage={Number(
                                   parsePercentage(judge.granted_asylum_percentage)
                                 )}
-                                size={40}
+                                size={50}
                                 strokeWidth={5}
+                                animate={sidebarOpen}
                               />
                             </div>
                           </div>

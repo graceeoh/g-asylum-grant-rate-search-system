@@ -42,9 +42,9 @@ const JudgeCard: React.FC<JudgeCardProps> = ({ judge, currentLanguage }) => {
                     size={115}
                     strokeWidth={17}
                 />
-                <Link to={`/judge/${judge.judge_name}`}>
-                    <h3>{judge.judge_name}</h3>
-                </Link>
+                    <Link to={`/judge/${judge.judge_name}`}>
+                    <h3 className="judge-name">{judge.judge_name}</h3>
+                    </Link>
                 <Link to={`/city/${judge.city}`}>
                     <p style={{ marginLeft: "30px" }}>{judge.city}</p>
                 </Link>

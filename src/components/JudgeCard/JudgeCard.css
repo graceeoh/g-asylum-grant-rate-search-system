@@ -54,3 +54,18 @@
     margin-left: 40px;
     margin-top: 20px;
 }
+
+.judge-card {
+    transition: color 0.2s ease;
+  }
+  
+  /* ✅ Smooth color change for the name */
+  .judge-card .judge-name {
+    color: #fff; /* or your default text color */
+    transition: color 0.2s ease;
+  }
+  
+  .judge-card:hover .judge-name {
+    color: #B9F36D; /* soft neon green */
+  }
+  
