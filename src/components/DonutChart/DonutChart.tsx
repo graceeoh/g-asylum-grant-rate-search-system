@@ -39,9 +39,9 @@ const DonutChart: React.FC<DonutChartProps> = ({
     }
 
     if (!fontSize) {
-        fontSize = "30";
-    }
-    console.log(strokeColor);
+        fontSize = size < 60 ? `${size * 0.45}` : `${size * 0.22}`;
+      }
+              console.log(strokeColor);
     console.log(color);
 
     return (
@@ -50,9 +50,9 @@ const DonutChart: React.FC<DonutChartProps> = ({
             height={size}
             viewBox={`0 0 ${size} ${size}`}
             className='donut-chart'
-        >
+      >
             {/* Apply transformation to flip over the x-axis */}
-            <g transform={`scale(1, -1) translate(0, -${size})`}>
+            <g transform={size < 60 ? undefined : `scale(1, -1) translate(0, -${size})`}>
                 {/* Background ring */}
                 <circle
                     className='donut-ring'
@@ -61,6 +61,7 @@ const DonutChart: React.FC<DonutChartProps> = ({
                     r={radius}
                     fill='transparent'
                     stroke='#404247'
+                    strokeOpacity={0.4}
                     strokeWidth={strokeWidth}
                 />
 
@@ -75,7 +76,7 @@ const DonutChart: React.FC<DonutChartProps> = ({
                     strokeWidth={strokeWidth}
                     strokeDasharray={circumference}
                     strokeDashoffset={offset}
-                    strokeLinecap='round'
+                    strokeLinecap={size < 50 ? 'butt' : 'round'}
                     transform={`rotate(90 ${size / 2} ${size / 2})`}
                 />
             </g>

@@ -279,145 +279,226 @@ function CityPage({ currentLanguage }: CityPageProps) {
             : currentLanguage === "es"
             ? "Este número es el porcentaje de casos en esta ciudad donde se denegaron, ya sea asilo u otro tipo de alivio."
             : "Nimewo sa a se pousantaj ka nan vil sa a ki te refize, kit se azil oswa lòt sekou.";
+    const [sidebarOpen, setSidebarOpen] = useState(false);
+
+    console.log("Sidebar open:", sidebarOpen);
+    console.log("Sorted judges:", sortedJudges.length);
     return (
         <div
-          className="city-page"
+          className={`city-page ${sidebarOpen ? "sidebar-open" : ""}`}
           style={{
             "--bg-image": `url(${bg})`,
           } as React.CSSProperties}
         >
           <div className="city-content">
-            <div className="main-layout">
-              {/* LEFT COLUMN */}
-              <div className="main-left">
-                <div className="header-section">
-                  <div className="city-title-description">
-                    <h2 className="city-title">{city}</h2>
-                    <h1 className="city-descriptor label">{cityLabel}</h1>
-                    <h3 className="city-descriptor judge-count">
-                      {cityJudges.length} {judgeLabel}
-                    </h3>
-                  </div>
-                </div>
+            {/* ✅ MAIN WRAPPER that centers & shifts */}
+            <div className={`main-wrapper ${sidebarOpen ? "shifted" : ""}`}>
+              <div className="main-layout">
+                {/* LEFT COLUMN */}
+                <div className="main-left">
+                  {/* --- CITY HEADER + STATS --- */}
+                  <div className="header-section">
+                    <div className="city-title-description">
+                      <h2 className="city-title">{city}</h2>
+                      <h1 className="city-descriptor label">{cityLabel}</h1>
+                      <h3 className="city-descriptor judge-count">
+                        {cityJudges.length} {judgeLabel}
+                      </h3>
       
-                <div className="rates-section">
-                  <h2 className="section-header rates">{averageRatesLabel}</h2>
-      
-                  {/* stack of donut sections */}
-                  <div className="donut-charts-container vertical">
-                    {/* ASYLUM GRANTED */}
-                    <div className="cases-granted-section">
-                      <div className="donut-chart-div">
-                        <DonutChart
-                          title={asylumGranted}
-                          percentage={avgAsylumGrantRate}
-                          className="asylum-granted-donut-chart"
-                          size={140}
-                          strokeWidth={15}
-                          color={"#C5FBA3"}
-                        />
-                      </div>
-                      <div className="donut-chart-description">
-                        <p>{asylumGranted}</p>
-                        <Tooltip text={asylumGrantedInfo}>
-                          <span className="info-icon-city">
-                            <i className="fas fa-info-circle"></i>
-                          </span>
-                        </Tooltip>
-                      </div>
-                    </div>
-      
-                    {/* OTHER RELIEF GRANTED */}
-                    <div className="other-relief-section">
-                      <div className="donut-chart-div">
-                        <DonutChart
-                          title={otherRelief}
-                          percentage={avgOtherGrantRate}
-                          className="other-relief-donut-chart"
-                          size={140}
-                          strokeWidth={15}
-                          color={"#C5FBA3"}
-                        />
-                      </div>
-                      <div className="donut-chart-description">
-                        <p>{otherRelief}</p>
-                        <Tooltip text={otherReliefInfo}>
-                          <span className="info-icon-city">
-                            <i className="fas fa-info-circle"></i>
-                          </span>
-                        </Tooltip>
-                      </div>
-                    </div>
-      
-                    {/* CASES DENIED */}
-                    <div className="denied-section">
-                      <div className="donut-chart-div">
-                        <DonutChart
-                          title={denied}
-                          percentage={avgDeniedRate}
-                          className="denied-donut-chart"
-                          size={140}
-                          strokeWidth={15}
-                          color={"#FF7A7A"}
-                        />
-                      </div>
-                      <div className="donut-chart-description">
-                        <p>{denied}</p>
-                        <Tooltip text={deniedInfo}>
-                          <span className="info-icon-city">
-                            <i className="fas fa-info-circle"></i>
-                          </span>
-                        </Tooltip>
+                      {/* ✅ City Stats moved up here */}
+                      <div className="city-top-stats">
+                        <p>
+                          <span className="asylum-granted">{asylumGrantedAmount}</span>{" "}
+                          {asylumGrantedAmount === 1 ? "case" : "cases"} out of{" "}
+                          <span className="cases-amount">{casesAmount}</span> total{" "}
+                          {casesAmount === 1 ? "case" : "cases"} in {city} were granted
+                          asylum.
+                        </p>
                       </div>
                     </div>
                   </div>
-                </div>
       
-                <div className="stats-section">
-                  <h2 className="section-header stats">{cityStatsLabel}</h2>
-                  <div className="statistics">
-                    <p>
-                      {outOf}{" "}
-                      <span className="cases-amount">{casesAmount}</span> {caseIn}{" "}
-                      {city},{" "}
-                      <span className="asylum-granted">{asylumGrantedAmount}</span>{" "}
-                      {wereGrantedAsylum}
-                      <span className="other-granted">{otherGrantedAmount}</span>{" "}
-                      {wereGrantedOtherRelief}
-                      <span className="denied-amount">{deniedAmount}</span>{" "}
-                      {wereDenied}
-                    </p>
+                  {/* --- AVERAGE RATES --- */}
+                  <div className="rates-section">
+                    <h2 className="section-header rates">{averageRatesLabel}</h2>
+      
+                    <div className="donut-charts-container vertical">
+                      {/* ASYLUM GRANTED */}
+                      <div className="donut-row">
+                        <div className="donut-side">
+                          <div className="donut-chart-div">
+                            <DonutChart
+                              title={asylumGranted}
+                              percentage={avgAsylumGrantRate}
+                              className="asylum-granted-donut-chart"
+                              size={180}
+                              strokeWidth={20}
+                              color={"#C5FBA3"}
+                            />
+                          </div>
+                          <div className="donut-chart-description">
+                            <p>{asylumGranted}</p>
+                            <Tooltip text={asylumGrantedInfo}>
+                              <span className="info-icon-city">
+                                <i className="fas fa-info-circle"></i>
+                              </span>
+                            </Tooltip>
+                          </div>
+                        </div>
+      
+                        {/* ✅ Text summary for Asylum Granted */}
+                        <div className="donut-textbox">
+                          <p>
+                            <span className="asylum-granted">{asylumGrantedAmount}</span>{" "}
+                            {asylumGrantedAmount === 1 ? "case" : "cases"} out of{" "}
+                            <span className="cases-amount">{casesAmount}</span> total{" "}
+                            {casesAmount === 1 ? "case" : "cases"} in {city} were granted
+                            asylum.
+                          </p>
+                        </div>
+                      </div>
+      
+                      {/* OTHER RELIEF GRANTED */}
+                      <div className="donut-row">
+                        <div className="donut-side">
+                          <div className="donut-chart-div">
+                            <DonutChart
+                              title={otherRelief}
+                              percentage={avgOtherGrantRate}
+                              className="other-relief-donut-chart"
+                              size={180}
+                              strokeWidth={20}
+                              color={"#C5FBA3"}
+                            />
+                          </div>
+                          <div className="donut-chart-description">
+                            <p>{otherRelief}</p>
+                            <Tooltip text={otherReliefInfo}>
+                              <span className="info-icon-city">
+                                <i className="fas fa-info-circle"></i>
+                              </span>
+                            </Tooltip>
+                          </div>
+                        </div>
+      
+                        {/* ✅ Text summary for Other Relief */}
+                        <div className="donut-textbox">
+                          <p>
+                            <span className="other-granted">{otherGrantedAmount}</span>{" "}
+                            {otherGrantedAmount === 1 ? "case" : "cases"} out of{" "}
+                            <span className="cases-amount">{casesAmount}</span> total{" "}
+                            {casesAmount === 1 ? "case" : "cases"} in {city} received
+                            other relief.
+                          </p>
+                        </div>
+                      </div>
+      
+                      {/* CASES DENIED */}
+                      <div className="donut-row">
+                        <div className="donut-side">
+                          <div className="donut-chart-div">
+                            <DonutChart
+                              title={denied}
+                              percentage={avgDeniedRate}
+                              className="denied-donut-chart"
+                              size={180}
+                              strokeWidth={20}
+                              color={"#FF7A7A"}
+                            />
+                          </div>
+                          <div className="donut-chart-description">
+                            <p>{denied}</p>
+                            <Tooltip text={deniedInfo}>
+                              <span className="info-icon-city">
+                                <i className="fas fa-info-circle"></i>
+                              </span>
+                            </Tooltip>
+                          </div>
+                        </div>
+      
+                        {/* ✅ Text summary for Denied */}
+                        <div className="donut-textbox">
+                          <p>
+                            <span className="denied-amount">{deniedAmount}</span>{" "}
+                            {deniedAmount === 1 ? "case" : "cases"} out of{" "}
+                            <span className="cases-amount">{casesAmount}</span> total{" "}
+                            {casesAmount === 1 ? "case" : "cases"} in {city} were denied
+                            asylum or other forms of relief.
+                          </p>
+                        </div>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
+            </div>
       
-              {/* RIGHT SIDEBAR */}
-              <div className="sidebar">
-                <h3 className="sidebar-title">
-                  Other Judges in {city}
-                </h3>
+            {/* --- SIDEBAR TOGGLE BUTTON (always visible) --- */}
+{/* --- SIDEBAR TOGGLE BUTTON (always visible) --- */}
+            <button
+            className={`sidebar-toggle ${sidebarOpen ? "open" : ""}`}
+            onClick={() => setSidebarOpen(!sidebarOpen)}
+            >
+            {sidebarOpen ? (
+                <>
+                ➤
+                <span className="sidebar-tooltip">Hide Judges</span>
+                </>
+            ) : (
+                <>
+                ◄
+                <span className="sidebar-tooltip">Show Judges</span>
+                </>
+            )}
+            </button>
+      
+            {/* --- SIDEBAR (slides out) --- */}
+            <div className={`sidebar ${sidebarOpen ? "open" : ""}`}>
+              <div className="sidebar-content">
+                <h3 className="sidebar-title">Judges in {city}</h3>
                 <div className="sidebar-list">
-                {sortedJudges.length > 0 &&
-  sortedJudges.map((judge) => (
-    <div key={judge.judge_name} className="sidebar-judge-card">
-      <div className="sidebar-judge-row">
-        <span className="sidebar-judge-name">{judge.judge_name}</span>
-        <span className="sidebar-judge-rate">
-          {parsePercentage(judge.granted_asylum_percentage).toFixed(0)}%
-        </span>
-      </div>
-      <span className="sidebar-judge-cases">
-        {judge.total_decisions} cases
-      </span>
-    </div>
-  ))}
-
+                  {sortedJudges.length > 0 &&
+                    sortedJudges.map((judge) => (
+                      <div key={judge.judge_name} className="sidebar-judge-card">
+                        <div className="sidebar-judge-row">
+                          <div className="sidebar-judge-left">
+                            <span className="sidebar-judge-name">{judge.judge_name}</span>
+                            <span className="sidebar-judge-cases">
+                              {judge.total_decisions} cases
+                            </span>
+                          </div>
+      
+                          <div className="sidebar-mini-donut">
+                            <DonutChart
+                              title=" "
+                              percentage={Number(
+                                parsePercentage(judge.granted_asylum_percentage)
+                              )}
+                              size={40}
+                              strokeWidth={5}
+                              color={
+                                parsePercentage(judge.granted_asylum_percentage) > 60
+                                  ? "#C5FBA3"
+                                  : parsePercentage(judge.granted_asylum_percentage) > 30
+                                  ? "#FFD166"
+                                  : "#FF7A7A"
+                              }
+                            />
+                            <span className="sidebar-mini-percent">
+                              {parsePercentage(
+                                judge.granted_asylum_percentage
+                              ).toFixed(0)}
+                              %
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+                    ))}
                 </div>
               </div>
             </div>
           </div>
         </div>
       );
-                    }
-
-export default CityPage;
+                              }
+    export default CityPage;
