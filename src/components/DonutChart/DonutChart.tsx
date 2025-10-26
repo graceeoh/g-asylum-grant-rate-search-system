@@ -1,99 +1,93 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "./DonutChart.css";
 
 interface DonutChartProps {
-    percentage: number; // e.g., 73.4
-    size?: number; // diameter of the donut
-    strokeWidth?: number; // thickness of the ring
-    color?: string;
-    fontSize?: string;
+  percentage: number;
+  size?: number;
+  strokeWidth?: number;
+  color?: string;
+  fontSize?: string;
 }
 
-/**
- * Displays a donut chart that starts at the top and fills counterclockwise.
- * By default, it’s 80x80 with a 10px stroke width.
- */
 const DonutChart: React.FC<DonutChartProps> = ({
-    percentage,
-    size = 80,
-    strokeWidth = 10,
-    color,
-    fontSize,
+  percentage,
+  size = 80,
+  strokeWidth = 10,
+  color,
+  fontSize,
 }) => {
-    // Donut geometry
-    const radius = (size - strokeWidth) / 2;
-    const circumference = 2 * Math.PI * radius;
+  const radius = (size - strokeWidth) / 2;
+  const circumference = 2 * Math.PI * radius;
+  const [offset, setOffset] = useState(circumference);
 
-    // Correct offset calculation for counterclockwise
-    const offset = circumference * (1 - percentage / 100);
+  // Animate fill from 0 → actual value
+  useEffect(() => {
+    const progress = circumference * (1 - percentage / 100);
+    const timeout = setTimeout(() => setOffset(progress), 50);
+    return () => clearTimeout(timeout);
+  }, [percentage, circumference]);
 
-    let strokeColor;
-    if (color) {
-        strokeColor = color;
-    } else if (percentage > 67) {
-        strokeColor = "#C5FBA3"; // Green
-    } else if (percentage >= 33) {
-        strokeColor = "#FFBD7A"; // Yellow
-    } else {
-        strokeColor = "#FF7A7A"; // Red
-    }
+  const strokeColor =
+    color ||
+    (percentage > 67
+      ? "#C5FBA3"
+      : percentage >= 33
+      ? "#FFBD7A"
+      : "#FF7A7A");
 
-    if (!fontSize) {
-        fontSize = size < 60 ? `${size * 0.45}` : `${size * 0.22}`;
-      }
-              console.log(strokeColor);
-    console.log(color);
+  if (!fontSize) {
+    fontSize = size < 60 ? `${size * 0.45}px` : `${size * 0.22}px`;
+  }
 
-    return (
-        <svg
-            width={size}
-            height={size}
-            viewBox={`0 0 ${size} ${size}`}
-            className='donut-chart'
+  return (
+    <svg
+      width={size}
+      height={size}
+      viewBox={`0 0 ${size} ${size}`}
+      className="donut-chart"
+    >
+      {/* Background ring */}
+      <circle
+        cx={size / 2}
+        cy={size / 2}
+        r={radius}
+        fill="transparent"
+        stroke="#404247"
+        strokeOpacity={0.8}
+        strokeWidth={strokeWidth}
+      />
+
+      {/* Foreground ring (animated stroke) */}
+      <circle
+        cx={size / 2}
+        cy={size / 2}
+        r={radius}
+        fill="transparent"
+        stroke={strokeColor}
+        strokeWidth={strokeWidth}
+        strokeDasharray={circumference}
+        strokeDashoffset={offset}
+        strokeLinecap="round"
+        style={{
+          transition: "stroke-dashoffset 1.5s ease",
+          transform: `rotate(-90deg)`,
+          transformOrigin: "50% 50%",
+        }}
+      />
+
+      {/* Center text */}
+      <text
+        x="50%"
+        y="50%"
+        textAnchor="middle"
+        dy=".3em"
+        fill="white"
+        fontSize={fontSize}
       >
-            {/* Apply transformation to flip over the x-axis */}
-            <g transform={size < 60 ? undefined : `scale(1, -1) translate(0, -${size})`}>
-                {/* Background ring */}
-                <circle
-                    className='donut-ring'
-                    cx={size / 2}
-                    cy={size / 2}
-                    r={radius}
-                    fill='transparent'
-                    stroke='#404247'
-                    strokeOpacity={0.4}
-                    strokeWidth={strokeWidth}
-                />
-
-                {/* Filled arc */}
-                <circle
-                    className='donut-segment'
-                    cx={size / 2}
-                    cy={size / 2}
-                    r={radius}
-                    fill='transparent'
-                    stroke={strokeColor}
-                    strokeWidth={strokeWidth}
-                    strokeDasharray={circumference}
-                    strokeDashoffset={offset}
-                    strokeLinecap={size < 50 ? 'butt' : 'round'}
-                    transform={`rotate(90 ${size / 2} ${size / 2})`}
-                />
-            </g>
-
-            {/* Optional text in the center (rounded to whole percent) */}
-            <text
-                x='50%'
-                y='50%'
-                textAnchor='middle'
-                dy='.3em'
-                fill='white'
-                fontSize={fontSize}
-            >
-                {`${Math.round(percentage)}%`}
-            </text>
-        </svg>
-    );
+        {`${Math.round(percentage)}%`}
+      </text>
+    </svg>
+  );
 };
 
 export default DonutChart;

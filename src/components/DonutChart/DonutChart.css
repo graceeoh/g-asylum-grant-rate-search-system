@@ -1,13 +1,18 @@
 .donut-chart {
-    /* Just to ensure we don't accidentally rotate the entire svg again, 
-       since we already do transform on the circle itself. */
-    display: inline-block;
-}
+    display: block;
+  }
+  
+  .donut-chart circle {
+    transition: stroke-dashoffset 1.5s ease;
+  }
+    
+  .donut-chart text {
+    font-weight: 600;
+    user-select: none;
+  }
 
-.donut-ring {
-    transition: stroke-dashoffset 0.5s;
-}
-
-.donut-segment {
-    transition: stroke-dashoffset 0.5s;
-}
+  .donut-chart circle:last-child {
+    transform: rotate(-90deg) translateY(-100px);
+    transform-origin: 50% 50%;
+  }
+  

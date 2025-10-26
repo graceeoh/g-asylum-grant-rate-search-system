@@ -305,15 +305,17 @@ function CityPage({ currentLanguage }: CityPageProps) {
                         {cityJudges.length} {judgeLabel}
                       </h3>
       
-                      {/* ✅ City Stats moved up here */}
+                      {/* ✅ City Stats */}
                       <div className="city-top-stats">
-                        <p>
-                          <span className="asylum-granted">{asylumGrantedAmount}</span>{" "}
-                          {asylumGrantedAmount === 1 ? "case" : "cases"} out of{" "}
-                          <span className="cases-amount">{casesAmount}</span> total{" "}
-                          {casesAmount === 1 ? "case" : "cases"} in {city} were granted
-                          asylum.
-                        </p>
+                        <div className="city-stats-box">
+                          <p>
+                            <span className="asylum-granted">{asylumGrantedAmount}</span>{" "}
+                            {asylumGrantedAmount === 1 ? "case" : "cases"} out of{" "}
+                            <span className="cases-amount">{casesAmount}</span> total{" "}
+                            {casesAmount === 1 ? "case" : "cases"} in {city} were granted
+                            asylum.
+                          </p>
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -387,8 +389,8 @@ function CityPage({ currentLanguage }: CityPageProps) {
                             <span className="other-granted">{otherGrantedAmount}</span>{" "}
                             {otherGrantedAmount === 1 ? "case" : "cases"} out of{" "}
                             <span className="cases-amount">{casesAmount}</span> total{" "}
-                            {casesAmount === 1 ? "case" : "cases"} in {city} received
-                            other relief.
+                            {casesAmount === 1 ? "case" : "cases"} in {city} received other
+                            relief.
                           </p>
                         </div>
                       </div>
@@ -434,71 +436,98 @@ function CityPage({ currentLanguage }: CityPageProps) {
             </div>
       
             {/* --- SIDEBAR TOGGLE BUTTON (always visible) --- */}
-{/* --- SIDEBAR TOGGLE BUTTON (always visible) --- */}
             <button
-            className={`sidebar-toggle ${sidebarOpen ? "open" : ""}`}
-            onClick={() => setSidebarOpen(!sidebarOpen)}
+              className={`sidebar-toggle ${sidebarOpen ? "open" : ""}`}
+              onClick={() => setSidebarOpen(!sidebarOpen)}
             >
-            {sidebarOpen ? (
+              {sidebarOpen ? (
                 <>
-                ➤
-                <span className="sidebar-tooltip">Hide Judges</span>
+                  ➤
+                  <span className="sidebar-tooltip">Hide Judges</span>
                 </>
-            ) : (
+              ) : (
                 <>
-                ◄
-                <span className="sidebar-tooltip">Show Judges</span>
+                  ◄
+                  <span className="sidebar-tooltip">Show Judges</span>
                 </>
-            )}
+              )}
             </button>
       
             {/* --- SIDEBAR (slides out) --- */}
             <div className={`sidebar ${sidebarOpen ? "open" : ""}`}>
-              <div className="sidebar-content">
-                <h3 className="sidebar-title">Judges in {city}</h3>
-                <div className="sidebar-list">
-                  {sortedJudges.length > 0 &&
-                    sortedJudges.map((judge) => (
-                      <div key={judge.judge_name} className="sidebar-judge-card">
-                        <div className="sidebar-judge-row">
-                          <div className="sidebar-judge-left">
-                            <span className="sidebar-judge-name">{judge.judge_name}</span>
-                            <span className="sidebar-judge-cases">
-                              {judge.total_decisions} cases
-                            </span>
-                          </div>
-      
-                          <div className="sidebar-mini-donut">
-                            <DonutChart
-                              title=" "
-                              percentage={Number(
-                                parsePercentage(judge.granted_asylum_percentage)
-                              )}
-                              size={40}
-                              strokeWidth={5}
-                              color={
-                                parsePercentage(judge.granted_asylum_percentage) > 60
-                                  ? "#C5FBA3"
-                                  : parsePercentage(judge.granted_asylum_percentage) > 30
-                                  ? "#FFD166"
-                                  : "#FF7A7A"
-                              }
-                            />
-                            <span className="sidebar-mini-percent">
-                              {parsePercentage(
-                                judge.granted_asylum_percentage
-                              ).toFixed(0)}
-                              %
-                            </span>
-                          </div>
-                        </div>
-                      </div>
-                    ))}
+  <div className="sidebar-content">
+    <h3 className="sidebar-title">Judges in {city}</h3>
+
+    {/* === Sort Dropdown for Sidebar === */}
+    <div className="sidebar-sort">
+      <label htmlFor="sidebar-sort-select" className="sidebar-sort-label">
+        {sortByLabel}:
+      </label>
+      <select
+        id="sidebar-sort-select"
+        className="sidebar-sort-select"
+        value={sortValue}
+        onChange={(e) => setSortValue(e.target.value)}
+      >
+        {dropdownOptions.map((opt) => (
+          <option key={opt.value} value={opt.value}>
+            {opt.label}
+          </option>
+        ))}
+      </select>
+    </div>
+
+    <div className="sidebar-list">
+    {sortedJudges.length > 0 &&
+  sortedJudges.map((judge, index) => (
+    <Link
+      to={`/judge/${encodeURIComponent(judge.judge_name)}`}
+      key={judge.judge_name}
+      className="sidebar-judge-link"
+      onClick={() => setSidebarOpen(false)}
+    >
+      <div
+        className="sidebar-judge-card"
+        style={{ animationDelay: `${index * 0.05}s` }}  // ✅ must be inside the opening tag, not as text!
+      >
+        <div className="sidebar-judge-row">
+          <div className="sidebar-judge-left">
+            <span className="sidebar-judge-name">{judge.judge_name}</span>
+            <span className="sidebar-judge-cases">
+              {judge.total_decisions} cases
+            </span>
+          </div>
+
+          {/* ✅ Tiny donut on the far right */}
+          <div className="sidebar-mini-donut">
+            <DonutChart
+              title=" "
+              percentage={Number(parsePercentage(judge.granted_asylum_percentage))}
+              size={40}
+              strokeWidth={5}
+              color={
+                parsePercentage(judge.granted_asylum_percentage) > 60
+                  ? "#C5FBA3"
+                  : parsePercentage(judge.granted_asylum_percentage) > 30
+                  ? "#FFD166"
+                  : "#FF7A7A"
+              }
+            />
+            <span className="sidebar-mini-percent">
+              {parsePercentage(judge.granted_asylum_percentage).toFixed(0)}%
+            </span>
+          </div>
+        </div>
+      </div>
+    </Link>
+  ))}
+
+
                 </div>
               </div>
             </div>
           </div>
         </div>
       );
-                              }
-    export default CityPage;
+                                }
+                                export default CityPage;

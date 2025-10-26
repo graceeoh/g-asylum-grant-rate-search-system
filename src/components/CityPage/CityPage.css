@@ -39,10 +39,25 @@ h2 {
   }
   
   .city-title {
-    font-size: 25px;
-    margin-bottom: 10px;
+    font-size: 40px;
+    font-weight: 700;
+    color: white;
+    margin-bottom: 8px;
+    line-height: 1.2;
   }
   
+  .city-descriptor.label {
+    font-size: 22px;
+    font-weight: 500;
+    color: #c5fba3; /* or whatever your label color is */
+  }
+  
+  .city-descriptor.judge-count {
+    font-size: 18px;
+    font-weight: 400;
+    color: #bfbfbf;
+  }
+    
   .city-title-description {
     margin-top: -30px;
   }
@@ -50,13 +65,7 @@ h2 {
   .city-page-dropdown-desktop {
     margin-top: 20px;
   }
-  
-  .city-title-description .city-descriptor {
-    font-weight: normal;
-    font-size: 20px;
-    margin: 5px 0 10px 0;
-  }
-  
+    
   .label {
     color: rgb(230, 230, 230);
   }
@@ -299,11 +308,10 @@ h2 {
     max-width: 60%;
   }
   
-  /* VERTICAL donut layout — ✅ centered */
   .donut-charts-container.vertical {
     display: flex;
     flex-direction: column;
-    align-items: center;   /* ✅ centers the whole column */
+    align-items: center;   
     justify-content: center;
     gap: 48px;
     width: 100%;
@@ -369,7 +377,7 @@ h2 {
     color: #90969c;
     text-align: left;       /* ✅ force left alignment */
     width: 100%;            /* ensures full line width for proper left edge */
-    margin-left: 2px;       /* optional: tiny spacing for better balance */
+    margin-left: 10px;       /* optional: tiny spacing for better balance */
   
   }
   
@@ -386,7 +394,7 @@ h2 {
   /* centers the % text in the donut */
   .sidebar-mini-percent {
     position: absolute;
-    font-size: 11px;
+    font-size: 19px;
     font-weight: bold;
     color: #c5fba3;
     text-align: center;
@@ -625,4 +633,94 @@ h2 {
     transform: translate(-5px, -50%);
   }
   
+  
+  .city-stats-box {
+    background: rgba(255, 255, 255, 0.15); /* translucent white */
+    backdrop-filter: blur(10px); /* frosted glass effect */
+    -webkit-backdrop-filter: blur(10px); /* Safari support */
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    border-radius: 15px;
+    padding: 15px;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    color: white; /* adjust if your background is dark */
+    width: fit-content;
+    margin-top: 20px;
+}
+
+.sidebar-judge-link {
+  text-decoration: none; /* remove underline */
+  color: inherit;        /* use same text color as parent */
+  display: block;        /* makes whole card clickable */
+}
+
+.sidebar-judge-link:visited {
+  color: inherit;        /* prevents purple visited color */
+}
+
+.sidebar-judge-link:hover .sidebar-judge-name {
+  color: #c5fba3;        /* optional: subtle highlight on hover */
+}
+
+/* === Sidebar Sort Dropdown === */
+.sidebar-sort {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 15px;
+    padding: 6px 0;
+  }
+  
+  .sidebar-sort-label {
+    font-size: 14px;
+    color: #c5fba3;
+    font-weight: 500;
+    margin-right: 8px;
+  }
+  
+  .sidebar-sort-select {
+    flex: 1;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 6px;
+    padding: 4px 6px;
+    color: white;
+    font-size: 13px;
+    outline: none;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+  
+  .sidebar-sort-select:hover {
+    background: rgba(255, 255, 255, 0.15);
+  }
+  
+  .sidebar-sort-select:focus {
+    border-color: #c5fba3;
+  }
+/* === Smooth Sort Animation === */
+@keyframes cardFadeIn {
+    0% {
+      opacity: 0;
+      transform: translateY(12px);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  .sidebar-judge-card {
+    animation: cardFadeIn 0.35s ease forwards;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+    position: relative;
+    transition: all 0.3s ease-in-out;
+
+  }
+
+  .sidebar-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    position: relative;
+  }
   
