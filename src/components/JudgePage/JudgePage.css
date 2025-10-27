@@ -1,137 +1,634 @@
-/* Base layout for the single judge page */
-.judge-page {
-    margin: 10px 5px 0 20px;
-    overflow-y: auto; /* Enable vertical scrolling */
-    max-height: 100vh; /* Set a maximum height for the page */
-}
+/* judge page - modern parallax layout*/
 
 h2 {
-    color: rgb(230, 230, 230);
-    padding-bottom: 5px;
+  color: rgb(230, 230, 230);
+  padding-bottom: 5px;
 }
 
-/* Header section */
+/* background + parallax effect */
+.judge-page {
+  background-position: center top !important;
+  background-attachment: local !important;
+  position: relative;
+  perspective: 1px;
+  transform-style: preserve-3d;
+  overflow-x: hidden;
+  overflow-y: visible;
+  min-height: 100vh;
+}
+
+.judge-page::before {
+  filter: contrast(1.3) brightness(0.9) saturate(1.1) blur(5px);
+  content: "";
+  position: absolute;
+  top: -400px;
+  left: 0;
+  width: 300vh;
+  height: 420vh;
+  background-image: 
+    linear-gradient(
+      to bottom,
+      rgba(0, 0, 0, 0.7) 0%,
+      rgba(0, 0, 0, 0.7) 60%,
+      rgba(0, 0, 0, 0.7) 100%
+    ),
+    var(--bg-image);
+  background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
+  transform: translateZ(-0.9px) scale(1.6) translateY(200px);
+  z-index: -1;
+  will-change: transform;
+}
+
+.judge-page.sidebar-open::before {
+  transform: translateZ(-0.9px) scale(1.6) translateY(200px) translateX(-30px);
+  transition: transform 0.5s ease;
+}
+
+.judge-page::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  pointer-events: none;
+}
+
+.judge-content {
+  position: relative;
+  z-index: 1;
+  min-height: 200vh;
+  transition: margin-right 0.4s ease;
+}
+
+.judge-sidebar.open ~ .judge-content {
+  margin-right: 300px;
+}
+
+/*header section*/
 .judge-header-section {
-    margin-top: 55px;
-    text-align: left;
-    padding: 0 20px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+  padding: 80px 0 0 0;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
 }
 
 .judge-title-description {
-    margin-top: -30px;
-}
-
-.judge-section-header {
-    text-align: left;
-    font-size: 20px;
-    margin-bottom: 5px;
-    color: rgb(230, 230, 230);
+  margin-top: 0;
+  max-width: 900px;
+  width: 100%;
 }
 
 .judge-title {
-    font-size: 20px;
+  font-size: 40px;
+  font-weight: 700;
+  color: white;
+  margin-bottom: 8px;
+  line-height: 1.2;
+  text-align: center;
 }
 
-.judge-descriptor {
-    font-weight: normal;
-    font-size: 20px;
-    margin: 5px 0 10px 0;
-    color: rgb(230, 230, 230);
+.judge-descriptor.judge-label {
+  font-size: 22px;
+  font-weight: 500;
+  color: #c5fba3;
+  text-align: center;
 }
 
-.judge-label {
-    color: rgb(230, 230, 230);
+.judge-descriptor.judge-city {
+  font-size: 18px;
+  font-weight: 400;
+  color: #bfbfbf;
+  cursor: pointer;
+  transition: color 0.2s ease;
+  text-decoration: none;
+  display: block;
+  text-align: center;
 }
 
-.judge-city {
-    color: #90969c;
+.judge-descriptor.judge-city:hover {
+  color: #c5fba3;
 }
 
-/* Rates section layout */
+/* Judge stats box under title */
+.judge-top-stats {
+  margin-top: 20px;
+  font-size: 15px;
+  color: white;
+  line-height: 1.5;
+  max-width: 550px;
+  display: flex;
+  justify-content: center;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.judge-stats-box {
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  border-radius: 15px;
+  padding: 15px;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  color: white;
+  width: fit-content;
+  text-align: center;
+}
+
+/*section headers*/
+.judge-section-header {
+  position: relative;
+  text-align: center;
+  font-size: 22px;
+  font-weight: 600;
+  margin-bottom: 25px;
+  color: white;
+  letter-spacing: 0.5px;
+}
+
+.judge-section-header.judge-rates {
+  margin-bottom: 0;
+}
+
+.judge-section-header::after {
+  content: "";
+  position: absolute;
+  bottom: -6px;
+  left: 50%;
+  transform: translateX(-50%) scaleX(0);
+  transform-origin: center;
+  width: 150px;
+  height: 3px;
+  background-color: #c5fba3;
+  border-radius: 2px;
+  transition: transform 0.2s ease;
+}
+
+.judge-section-header:hover::after {
+  transform: translateX(-50%) scaleX(1);
+}
+
+/* National average note */
+.judge-national-average-note {
+  font-size: 14px;
+  color: rgb(200, 200, 200);
+  margin-top: 9px;
+  margin-bottom: 10px;
+  opacity: 1;
+  text-align: center;
+}
+
+.judge-national-average-note .judge-dash-example {
+  letter-spacing: -2px;
+  font-weight: 500;
+  color: #ffffff;
+}
+
+.judge-dash-example {
+  color: white;
+  font-family: monospace;
+  letter-spacing: 2px;
+}
+
+/* ===========================
+   CONTENT CENTER + SHIFT ANIMATION
+   =========================== */
+
+.judge-main-wrapper {
+  transition: transform 0.5s ease, margin 0.5s ease;
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
+.judge-main-layout {
+  transition: all 0.5s ease;
+  max-width: 900px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 60px;
+  margin-top: 60px;
+  padding: 0 40px;
+}
+
+/* When sidebar opens → slide content left */
+.judge-main-wrapper.shifted {
+  transform: translateX(-160px);
+  justify-content: flex-start;
+}
+
+.judge-main-wrapper.shifted .judge-main-layout {
+  opacity: 0.95;
+}
+
+/* LEFT COLUMN */
+.judge-main-left {
+  flex: 1;
+  max-width: 100%;
+}
+
+/* rates section*/
 .judge-rates-section {
-    margin-top: 40px;
-    padding: 0 20px;
+  margin-top: 40px;
+  padding: 0 20px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
 }
 
-/* Donut chart container */
-.judge-donut-charts-container {
-    display: flex;
-    justify-content: flex-start;
-    align-items: center;
-    gap: 60px;
+.judge-donut-charts-container.vertical {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 48px;
+  width: 100%;
 }
 
-/* Individual donut chart section */
-.judge-asylum-granted-section,
-.judge-other-relief-section,
-.judge-denied-section {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+/* donut row layout*/
+.judge-donut-row {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 60px;
+  margin: 0;
+  width: 100%;
+  text-align: left;
+}
+
+.judge-donut-side {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  width: 100%;
 }
 
 .judge-donut-chart-div {
-    display: inline-block;
-    margin-left: -50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 200px;
+  height: 200px;
+  margin: 0 auto;
+  flex-shrink: 0;
 }
 
+/*donut description*/
 .judge-donut-chart-description {
-    display: flex;
-    align-items: center;
-    margin-top: 10px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  margin-top: 12px;
+  width: auto;
+  text-align: center;
+  position: relative;
+  left: 20px;
 }
 
 .judge-donut-chart-description p {
-    font-size: 16px;
-    color: rgb(230, 230, 230);
-    margin: 0;
-    text-align: center;
+  font-size: 17px;
+  font-weight: 500;
+  color: white;
+  margin: 0;
+  text-align: center;
 }
 
-/* Info icon styling */
+/* Info icon */
 .judge-info-icon {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin: 0 15px;
-    cursor: pointer;
-    font-size: 18px;
-    color: #c5fba3;
-    height: 20px;
-    width: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  font-size: 18px;
+  color: #c5fba3;
+  transition: color 0.2s, transform 0.2s;
 }
 
-/* Stats section */
+.judge-info-icon:hover {
+  color: #b3ff89;
+  transform: scale(1.1);
+}
+
+/* text box*/
+.judge-donut-textbox {
+  flex: 0 1 400px;
+  background-color: rgba(255, 255, 255, 0.04);
+  border-left: 3px solid rgba(197, 251, 163, 0.3);
+  padding: 16px 20px;
+  border-radius: 10px;
+  color: rgb(230, 230, 230);
+  font-size: 15px;
+  line-height: 1.6;
+  backdrop-filter: blur(4px);
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.15);
+  text-align: left;
+  max-width: 450px;
+}
+
+/* colored text stats*/
+.judge-donut-textbox .judge-asylum-granted,
+.judge-donut-textbox .judge-other-granted {
+  color: #c5fba3;
+  font-weight: bold;
+}
+
+.judge-donut-textbox .judge-denied-amount {
+  color: #ff7a7a;
+  font-weight: bold;
+}
+
+.judge-donut-textbox .judge-cases-amount {
+  color: white;
+  font-weight: bold;
+}
+
+/* stats section*/
 .judge-stats-section {
-    margin-top: 60px;
-    padding: 0 20px;
+  margin-top: 60px;
+  margin-bottom: 100px;
+  padding: 0 20px;
+  text-align: center;
 }
 
 .judge-statistics {
-    font-size: 16px;
-    text-align: left;
-    color: rgb(230, 230, 230);
+  font-size: 16px;
+  text-align: left;
+  color: rgb(230, 230, 230);
+  max-width: 700px;
+  margin: 0 auto;
 }
 
 .judge-cases-amount {
-    color: white;
-    font-weight: bold;
+  color: white;
+  font-weight: bold;
 }
 
 .judge-asylum-granted {
-    color: #c5fba3;
-    font-weight: bold;
+  color: #c5fba3;
+  font-weight: bold;
 }
 
 .judge-other-granted {
-    color: #c5fba3;
-    font-weight: bold;
+  color: #c5fba3;
+  font-weight: bold;
 }
 
 .judge-denied-amount {
-    color: #ff7a7a;
-    font-weight: bold;
+  color: #ff7a7a;
+  font-weight: bold;
+}
+
+/* Glow effect on donut charts */
+.judge-donut-chart-div circle:first-child {
+  filter: drop-shadow(0 0 6px rgba(108, 175, 92, 0.25));
+}
+
+/*side bar style*/
+
+/* --- Sidebar Toggle Button --- */
+.judge-sidebar-toggle {
+  position: fixed;
+  top: 7%;
+  right: 0;
+  transform: translateY(-50%);
+  width: 60px;
+  height: 80px;
+  background: linear-gradient(135deg, rgba(197, 251, 163, 0.15), rgba(0, 0, 0, 0.8));
+  color: #c5fba3;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-right: none;
+  border-radius: 16px 0 0 16px;
+  cursor: pointer;
+  font-size: 36px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 200;
+  transition: all 0.4s ease;
+  box-shadow: -2px 0 12px rgba(0, 0, 0, 0.4);
+}
+
+.judge-sidebar-toggle:hover {
+  background: rgba(197, 251, 163, 0.2);
+  transform: translateY(-50%) scale(1.1);
+}
+
+/* hover label for sidebar */
+.judge-sidebar-tooltip {
+  position: absolute;
+  left: -130px;
+  top: 50%;
+  transform: translateY(-50%);
+  white-space: nowrap;
+  font-size: 15px;
+  color: white;
+  background: rgba(41, 40, 40, 0.75);
+  padding: 8px 12px;
+  border-radius: 6px;
+  opacity: 0;
+  pointer-events: none;
+  transition: all 0.3s ease;
+}
+
+.judge-sidebar-toggle:hover .judge-sidebar-tooltip {
+  opacity: 1;
+  transform: translate(-5px, -50%);
+}
+
+/* --- Sidebar container --- */
+.judge-sidebar {
+  position: fixed;
+  top: 100px;
+  right: 0;
+  width: 320px;
+  height: 80vh;
+  background-color: rgba(0, 0, 0, 0.6);
+  border-left: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 10px 0 0 10px;
+  padding: 20px;
+  color: white;
+  backdrop-filter: blur(8px);
+  overflow-y: auto;
+  transform: translateX(100%);
+  transition: transform 0.4s ease, opacity 0.4s ease;
+  opacity: 0;
+  z-index: 90;
+}
+
+/* When open */
+.judge-sidebar.open {
+  transform: translateX(0);
+  opacity: 1;
+}
+
+/* Sidebar content */
+.judge-sidebar-content {
+  opacity: 1;
+}
+
+.judge-sidebar-title {
+  font-size: 18px;
+  font-weight: bold;
+  color: #c5fba3;
+  margin-bottom: 15px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  padding-bottom: 5px;
+}
+
+/* === Sidebar Sort Dropdown === */
+.judge-sidebar-sort {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 15px;
+  padding: 6px 0;
+}
+
+.judge-sidebar-sort-label {
+  font-size: 14px;
+  color: #c5fba3;
+  font-weight: 500;
+  margin-right: 8px;
+}
+
+.judge-sidebar-sort-select {
+  flex: 1;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 6px;
+  padding: 4px 6px;
+  color: white;
+  font-size: 13px;
+  outline: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.judge-sidebar-sort-select:hover {
+  background: rgba(255, 255, 255, 0.15);
+}
+
+.judge-sidebar-sort-select:focus {
+  border-color: #c5fba3;
+}
+
+.judge-sidebar-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  position: relative;
+}
+
+.judge-sidebar-judge-link {
+  text-decoration: none;
+  color: inherit;
+  display: block;
+}
+
+.judge-sidebar-judge-link:visited {
+  color: inherit;
+}
+
+.judge-sidebar-judge-link:hover .judge-sidebar-judge-name {
+  color: #c5fba3;
+}
+
+/* === Smooth Sort Animation === */
+@keyframes cardFadeIn {
+  0% {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.judge-sidebar-judge-card {
+  background-color: rgba(255, 255, 255, 0.08);
+  padding: 10px 12px;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  transition: background 0.2s, transform 0.3s ease, opacity 0.3s ease;
+  box-shadow: 0 0 10px rgba(108, 175, 92, 0.08);
+  animation: cardFadeIn 0.35s ease forwards;
+  position: relative;
+}
+
+.judge-sidebar-judge-card:hover {
+  background-color: rgba(255, 255, 255, 0.15);
+  transform: translateY(-3px);
+  box-shadow: 0 0 14px rgba(108, 175, 92, 0.18);
+}
+
+.judge-sidebar-judge-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.judge-sidebar-judge-left {
+  display: flex;
+  flex-direction: column;
+}
+
+.judge-sidebar-judge-name {
+  font-size: 15px;
+  font-weight: 500;
+}
+
+.judge-sidebar-judge-cases {
+  font-size: 13px;
+  color: #90969c;
+  text-align: left;
+  width: 100%;
+  margin-left: 10px;
+}
+
+/* --- Mini Donut Chart in Sidebar --- */
+.judge-sidebar-mini-donut {
+  position: relative;
+  width: 50px;
+  height: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  align-self: center;
+  margin-top: 30px;
+}
+
+.judge-sidebar-mini-donut svg {
+  display: block;
+  margin: 0;
+  padding: 0;
+  transform: translateY(-20px);
+}
+
+.judge-sidebar-mini-percent {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 2px;
+  font-weight: 700;
+  color: #c5fba3;
+  text-align: center;
+  line-height: 1;
+  pointer-events: none;
 }
