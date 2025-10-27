@@ -1,137 +1,336 @@
-/* Base layout for the single judge page */
-.judge-page {
-    margin: 10px 5px 0 20px;
-    overflow-y: auto; /* Enable vertical scrolling */
-    max-height: 100vh; /* Set a maximum height for the page */
-}
+/* judge page - modern parrallax layout*/
 
 h2 {
-    color: rgb(230, 230, 230);
-    padding-bottom: 5px;
+  color: rgb(230, 230, 230);
+  padding-bottom: 5px;
 }
 
-/* Header section */
+/* background + parallax effect */
+.judge-page {
+  background-position: center top !important;
+  background-attachment: local !important;
+  position: relative;
+  perspective: 1px;
+  transform-style: preserve-3d;
+  overflow-x: hidden;
+  overflow-y: visible;
+  min-height: 100vh;
+}
+
+.judge-page::before {
+  filter: contrast(1.3) brightness(0.9) saturate(1.1) blur(5px);
+  content: "";
+  position: absolute;
+  top: -400px;
+  left: 0;
+  width: 300vh;
+  height: 420vh;
+  background-image: 
+    linear-gradient(
+      to bottom,
+      rgba(0, 0, 0, 0.7) 0%,
+      rgba(0, 0, 0, 0.7) 60%,
+      rgba(0, 0, 0, 0.7) 100%
+    ),
+    var(--bg-image);
+  background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
+  transform: translateZ(-0.9px) scale(1.6) translateY(200px);
+  z-index: -1;
+  will-change: transform;
+}
+
+.judge-page::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  pointer-events: none;
+}
+
+.judge-content {
+  position: relative;
+  z-index: 1;
+  min-height: 200vh;
+}
+
+/*header section*/
 .judge-header-section {
-    margin-top: 55px;
-    text-align: left;
-    padding: 0 20px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+  padding: 80px 0 0 0;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
 }
 
 .judge-title-description {
-    margin-top: -30px;
-}
-
-.judge-section-header {
-    text-align: left;
-    font-size: 20px;
-    margin-bottom: 5px;
-    color: rgb(230, 230, 230);
+  margin-top: 0;
+  max-width: 900px;
+  width: 100%;
 }
 
 .judge-title {
-    font-size: 20px;
+  font-size: 40px;
+  font-weight: 700;
+  color: white;
+  margin-bottom: 8px;
+  line-height: 1.2;
+  text-align: center;
 }
 
-.judge-descriptor {
-    font-weight: normal;
-    font-size: 20px;
-    margin: 5px 0 10px 0;
-    color: rgb(230, 230, 230);
+.judge-descriptor.judge-label {
+  font-size: 22px;
+  font-weight: 500;
+  color: #c5fba3;
+  text-align: center;
 }
 
-.judge-label {
-    color: rgb(230, 230, 230);
+.judge-descriptor.judge-city {
+  font-size: 18px;
+  font-weight: 400;
+  color: #bfbfbf;
+  cursor: pointer;
+  transition: color 0.2s ease;
+  text-decoration: none;
+  display: block;
+  text-align: center;
 }
 
-.judge-city {
-    color: #90969c;
+.judge-descriptor.judge-city:hover {
+  color: #c5fba3;
 }
 
-/* Rates section layout */
+/* Judge stats box under title */
+.judge-top-stats {
+  margin-top: 20px;
+  font-size: 15px;
+  color: white;
+  line-height: 1.5;
+  max-width: 550px;
+  display: flex;
+  justify-content: center;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.judge-stats-box {
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  border-radius: 15px;
+  padding: 15px;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  color: white;
+  width: fit-content;
+  text-align: center;
+}
+
+/*section headers*/
+.judge-section-header {
+  position: relative;
+  text-align: center;
+  font-size: 22px;
+  font-weight: 600;
+  margin-bottom: 25px;
+  color: white;
+  letter-spacing: 0.5px;
+}
+
+.judge-section-header::after {
+  content: "";
+  position: absolute;
+  bottom: -6px;
+  left: 50%;
+  transform: translateX(-50%) scaleX(0);
+  transform-origin: center;
+  width: 150px;
+  height: 3px;
+  background-color: #c5fba3;
+  border-radius: 2px;
+  transition: transform 0.2s ease;
+}
+
+.judge-section-header:hover::after {
+  transform: translateX(-50%) scaleX(1);
+}
+
+/*main layout*/
+.judge-main-layout {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 60px;
+  margin-top: 60px;
+  padding: 0 40px;
+  max-width: 900px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* rates section*/
 .judge-rates-section {
-    margin-top: 40px;
-    padding: 0 20px;
+  margin-top: 40px;
+  padding: 0 20px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
 }
 
-/* Donut chart container */
-.judge-donut-charts-container {
-    display: flex;
-    justify-content: flex-start;
-    align-items: center;
-    gap: 60px;
+.judge-donut-charts-container.vertical {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 48px;
+  width: 100%;
 }
 
-/* Individual donut chart section */
-.judge-asylum-granted-section,
-.judge-other-relief-section,
-.judge-denied-section {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+/* donut row layout*/
+.judge-donut-row {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 60px;
+  margin: 0;
+  width: 100%;
+  text-align: left;
+}
+
+.judge-donut-side {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  width: 100%;
 }
 
 .judge-donut-chart-div {
-    display: inline-block;
-    margin-left: -50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 200px;
+  height: 200px;
+  margin: 0 auto;
+  flex-shrink: 0;
 }
 
+/*donut description*/
 .judge-donut-chart-description {
-    display: flex;
-    align-items: center;
-    margin-top: 10px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  margin-top: 12px;
+  width: auto;
+  text-align: center;
+  position: relative;
+  left: 20px;
 }
 
 .judge-donut-chart-description p {
-    font-size: 16px;
-    color: rgb(230, 230, 230);
-    margin: 0;
-    text-align: center;
+  font-size: 17px;
+  font-weight: 500;
+  color: white;
+  margin: 0;
+  text-align: center;
 }
 
-/* Info icon styling */
+/* Info icon */
 .judge-info-icon {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin: 0 15px;
-    cursor: pointer;
-    font-size: 18px;
-    color: #c5fba3;
-    height: 20px;
-    width: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  font-size: 18px;
+  color: #c5fba3;
+  transition: color 0.2s, transform 0.2s;
 }
 
-/* Stats section */
+.judge-info-icon:hover {
+  color: #b3ff89;
+  transform: scale(1.1);
+}
+
+/* text box*/
+.judge-donut-textbox {
+  flex: 0 1 400px;
+  background-color: rgba(255, 255, 255, 0.04);
+  border-left: 3px solid rgba(197, 251, 163, 0.3);
+  padding: 16px 20px;
+  border-radius: 10px;
+  color: rgb(230, 230, 230);
+  font-size: 15px;
+  line-height: 1.6;
+  backdrop-filter: blur(4px);
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.15);
+  text-align: left;
+  max-width: 450px;
+}
+
+/* colored text stats*/
+.judge-donut-textbox .judge-asylum-granted,
+.judge-donut-textbox .judge-other-granted {
+  color: #c5fba3;
+  font-weight: bold;
+}
+
+.judge-donut-textbox .judge-denied-amount {
+  color: #ff7a7a;
+  font-weight: bold;
+}
+
+.judge-donut-textbox .judge-cases-amount {
+  color: white;
+  font-weight: bold;
+}
+
+/* stats section*/
 .judge-stats-section {
-    margin-top: 60px;
-    padding: 0 20px;
+  margin-top: 60px;
+  margin-bottom: 100px;
+  padding: 0 20px;
+  text-align: center;
 }
 
 .judge-statistics {
-    font-size: 16px;
-    text-align: left;
-    color: rgb(230, 230, 230);
+  font-size: 16px;
+  text-align: left;
+  color: rgb(230, 230, 230);
+  max-width: 700px;
+  margin: 0 auto;
 }
 
 .judge-cases-amount {
-    color: white;
-    font-weight: bold;
+  color: white;
+  font-weight: bold;
 }
 
 .judge-asylum-granted {
-    color: #c5fba3;
-    font-weight: bold;
+  color: #c5fba3;
+  font-weight: bold;
 }
 
 .judge-other-granted {
-    color: #c5fba3;
-    font-weight: bold;
+  color: #c5fba3;
+  font-weight: bold;
 }
 
 .judge-denied-amount {
-    color: #ff7a7a;
-    font-weight: bold;
+  color: #ff7a7a;
+  font-weight: bold;
+}
+
+/* Glow effect on donut charts */
+.judge-donut-chart-div circle:first-child {
+  filter: drop-shadow(0 0 6px rgba(108, 175, 92, 0.25));
 }

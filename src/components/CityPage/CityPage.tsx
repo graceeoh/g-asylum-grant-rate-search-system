@@ -22,7 +22,8 @@ interface CityPageProps {
 }
 
 const cityImages: Record<string, string> = {
-    "San Francisco": require("../../assets/SanFrancisco.png")
+    "San Francisco": require("../../assets/SanFrancisco.png"),
+    "New York": require("../../assets/NewYork.png"),
   };
   
 const parsePercentage = (value: string | number | undefined): number => {
