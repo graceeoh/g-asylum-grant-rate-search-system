@@ -1,4 +1,4 @@
-/* judge page - modern parrallax layout*/
+/* judge page - modern parallax layout*/
 
 h2 {
   color: rgb(230, 230, 230);
@@ -41,6 +41,11 @@ h2 {
   will-change: transform;
 }
 
+.judge-page.sidebar-open::before {
+  transform: translateZ(-0.9px) scale(1.6) translateY(200px) translateX(-30px);
+  transition: transform 0.5s ease;
+}
+
 .judge-page::after {
   content: "";
   position: absolute;
@@ -55,6 +60,11 @@ h2 {
   position: relative;
   z-index: 1;
   min-height: 200vh;
+  transition: margin-right 0.4s ease;
+}
+
+.judge-sidebar.open ~ .judge-content {
+  margin-right: 300px;
 }
 
 /*header section*/
@@ -141,6 +151,10 @@ h2 {
   letter-spacing: 0.5px;
 }
 
+.judge-section-header.judge-rates {
+  margin-bottom: 0;
+}
+
 .judge-section-header::after {
   content: "";
   position: absolute;
@@ -159,17 +173,65 @@ h2 {
   transform: translateX(-50%) scaleX(1);
 }
 
-/*main layout*/
+/* National average note */
+.judge-national-average-note {
+  font-size: 14px;
+  color: rgb(200, 200, 200);
+  margin-top: 9px;
+  margin-bottom: 10px;
+  opacity: 1;
+  text-align: center;
+}
+
+.judge-national-average-note .judge-dash-example {
+  letter-spacing: -2px;
+  font-weight: 500;
+  color: #ffffff;
+}
+
+.judge-dash-example {
+  color: white;
+  font-family: monospace;
+  letter-spacing: 2px;
+}
+
+/* ===========================
+   CONTENT CENTER + SHIFT ANIMATION
+   =========================== */
+
+.judge-main-wrapper {
+  transition: transform 0.5s ease, margin 0.5s ease;
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
 .judge-main-layout {
+  transition: all 0.5s ease;
+  max-width: 900px;
+  width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 60px;
   margin-top: 60px;
   padding: 0 40px;
-  max-width: 900px;
-  margin-left: auto;
-  margin-right: auto;
+}
+
+/* When sidebar opens → slide content left */
+.judge-main-wrapper.shifted {
+  transform: translateX(-160px);
+  justify-content: flex-start;
+}
+
+.judge-main-wrapper.shifted .judge-main-layout {
+  opacity: 0.95;
+}
+
+/* LEFT COLUMN */
+.judge-main-left {
+  flex: 1;
+  max-width: 100%;
 }
 
 /* rates section*/
@@ -333,4 +395,240 @@ h2 {
 /* Glow effect on donut charts */
 .judge-donut-chart-div circle:first-child {
   filter: drop-shadow(0 0 6px rgba(108, 175, 92, 0.25));
+}
+
+/*side bar style*/
+
+/* --- Sidebar Toggle Button --- */
+.judge-sidebar-toggle {
+  position: fixed;
+  top: 7%;
+  right: 0;
+  transform: translateY(-50%);
+  width: 60px;
+  height: 80px;
+  background: linear-gradient(135deg, rgba(197, 251, 163, 0.15), rgba(0, 0, 0, 0.8));
+  color: #c5fba3;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-right: none;
+  border-radius: 16px 0 0 16px;
+  cursor: pointer;
+  font-size: 36px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 200;
+  transition: all 0.4s ease;
+  box-shadow: -2px 0 12px rgba(0, 0, 0, 0.4);
+}
+
+.judge-sidebar-toggle:hover {
+  background: rgba(197, 251, 163, 0.2);
+  transform: translateY(-50%) scale(1.1);
+}
+
+/* hover label for sidebar */
+.judge-sidebar-tooltip {
+  position: absolute;
+  left: -130px;
+  top: 50%;
+  transform: translateY(-50%);
+  white-space: nowrap;
+  font-size: 15px;
+  color: white;
+  background: rgba(41, 40, 40, 0.75);
+  padding: 8px 12px;
+  border-radius: 6px;
+  opacity: 0;
+  pointer-events: none;
+  transition: all 0.3s ease;
+}
+
+.judge-sidebar-toggle:hover .judge-sidebar-tooltip {
+  opacity: 1;
+  transform: translate(-5px, -50%);
+}
+
+/* --- Sidebar container --- */
+.judge-sidebar {
+  position: fixed;
+  top: 100px;
+  right: 0;
+  width: 320px;
+  height: 80vh;
+  background-color: rgba(0, 0, 0, 0.6);
+  border-left: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 10px 0 0 10px;
+  padding: 20px;
+  color: white;
+  backdrop-filter: blur(8px);
+  overflow-y: auto;
+  transform: translateX(100%);
+  transition: transform 0.4s ease, opacity 0.4s ease;
+  opacity: 0;
+  z-index: 90;
+}
+
+/* When open */
+.judge-sidebar.open {
+  transform: translateX(0);
+  opacity: 1;
+}
+
+/* Sidebar content */
+.judge-sidebar-content {
+  opacity: 1;
+}
+
+.judge-sidebar-title {
+  font-size: 18px;
+  font-weight: bold;
+  color: #c5fba3;
+  margin-bottom: 15px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  padding-bottom: 5px;
+}
+
+/* === Sidebar Sort Dropdown === */
+.judge-sidebar-sort {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 15px;
+  padding: 6px 0;
+}
+
+.judge-sidebar-sort-label {
+  font-size: 14px;
+  color: #c5fba3;
+  font-weight: 500;
+  margin-right: 8px;
+}
+
+.judge-sidebar-sort-select {
+  flex: 1;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 6px;
+  padding: 4px 6px;
+  color: white;
+  font-size: 13px;
+  outline: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.judge-sidebar-sort-select:hover {
+  background: rgba(255, 255, 255, 0.15);
+}
+
+.judge-sidebar-sort-select:focus {
+  border-color: #c5fba3;
+}
+
+.judge-sidebar-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  position: relative;
+}
+
+.judge-sidebar-judge-link {
+  text-decoration: none;
+  color: inherit;
+  display: block;
+}
+
+.judge-sidebar-judge-link:visited {
+  color: inherit;
+}
+
+.judge-sidebar-judge-link:hover .judge-sidebar-judge-name {
+  color: #c5fba3;
+}
+
+/* === Smooth Sort Animation === */
+@keyframes cardFadeIn {
+  0% {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.judge-sidebar-judge-card {
+  background-color: rgba(255, 255, 255, 0.08);
+  padding: 10px 12px;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  transition: background 0.2s, transform 0.3s ease, opacity 0.3s ease;
+  box-shadow: 0 0 10px rgba(108, 175, 92, 0.08);
+  animation: cardFadeIn 0.35s ease forwards;
+  position: relative;
+}
+
+.judge-sidebar-judge-card:hover {
+  background-color: rgba(255, 255, 255, 0.15);
+  transform: translateY(-3px);
+  box-shadow: 0 0 14px rgba(108, 175, 92, 0.18);
+}
+
+.judge-sidebar-judge-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.judge-sidebar-judge-left {
+  display: flex;
+  flex-direction: column;
+}
+
+.judge-sidebar-judge-name {
+  font-size: 15px;
+  font-weight: 500;
+}
+
+.judge-sidebar-judge-cases {
+  font-size: 13px;
+  color: #90969c;
+  text-align: left;
+  width: 100%;
+  margin-left: 10px;
+}
+
+/* --- Mini Donut Chart in Sidebar --- */
+.judge-sidebar-mini-donut {
+  position: relative;
+  width: 50px;
+  height: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  align-self: center;
+  margin-top: 30px;
+}
+
+.judge-sidebar-mini-donut svg {
+  display: block;
+  margin: 0;
+  padding: 0;
+  transform: translateY(-20px);
+}
+
+.judge-sidebar-mini-percent {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 2px;
+  font-weight: 700;
+  color: #c5fba3;
+  text-align: center;
+  line-height: 1;
+  pointer-events: none;
 }

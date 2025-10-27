@@ -22,9 +22,15 @@ interface CityPageProps {
 }
 
 const cityImages: Record<string, string> = {
-    "San Francisco": require("../../assets/SanFrancisco.png"),
-    "New York": require("../../assets/NewYork.png"),
-  };
+  "San Francisco": require("../../assets/SanFrancisco.png"),
+  "New York": require("../../assets/NewYork.png"),
+  "Hyattsville": require("../../assets/Hyattsville.png"),
+  "Honolulu": require("../../assets/Honolulu.png"),
+  "Imperial": require("../../assets/Imperial.png"),
+  "Baltimore": require("../../assets/Baltimore.png"),
+  "Chicago": require("../../assets/Chicago.png"),
+  "Sacramento": require("../../assets/Sacramento.png"),
+};
   
 const parsePercentage = (value: string | number | undefined): number => {
     if (typeof value === "number") return value;
