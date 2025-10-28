@@ -40,8 +40,8 @@ const translations = {
             "This number is the percent of cases this judge denied, whether asylum or other.",
         nationalAverageNote: "indicates the U.S. national average rate for comparison.",
         otherJudgesIn: "Other Judges in",
-        showJudges: "Show Judges",
-        hideJudges: "Hide Judges",
+        showJudges: "Show Other Judges",
+        hideJudges: "Hide Other Judges",
         sortBy: "Sort by",
         approvalHigh: "Approval Rate (High to Low)",
         approvalLow: "Approval Rate (Low to High)",
@@ -70,8 +70,8 @@ const translations = {
             "Este número es el porcentaje de casos en los que este juez denegó, ya sea asilo u otro tipo de alivio.",
         nationalAverageNote: "indica la tasa promedio nacional de EE. UU. para comparación.",
         otherJudgesIn: "Otros Jueces en",
-        showJudges: "Mostrar Jueces",
-        hideJudges: "Ocultar Jueces",
+        showJudges: "Mostrar Otros Jueces",
+        hideJudges: "Ocultar Otros Jueces",
         sortBy: "Ordenar por",
         approvalHigh: "Tasa de Aprobación (Alta a Baja)",
         approvalLow: "Tasa de Aprobación (Baja a Alta)",
@@ -100,8 +100,8 @@ const translations = {
             "Nimewo sa a se pousantaj ka jij sa a te refize, kit se azil oswa lòt sekou.",
         nationalAverageNote: "endike pousantaj mwayèn nasyonal Etazini pou konparezon.",
         otherJudgesIn: "Lòt Jij nan",
-        showJudges: "Montre Jij yo",
-        hideJudges: "Kache Jij yo",
+        showJudges: "Montre Lòt Jij yo",
+        hideJudges: "Kache Lòt Jij yo",
         sortBy: "Triye pa",
         approvalHigh: "To Apwobasyon (Wo a Ba)",
         approvalLow: "To Apwobasyon (Ba a Wo)",
@@ -240,264 +240,256 @@ function JudgePage({ currentLanguage }: JudgePageProps) {
 
     return (
         <div
-            className={`judge-page ${sidebarOpen ? "sidebar-open" : ""}`}
-            style={{ "--bg-image": `url(${bg})` } as React.CSSProperties}
+          className={`judge-page ${sidebarOpen ? "sidebar-open" : ""}`}
+          style={{ "--bg-image": `url(${bg})` } as React.CSSProperties}
         >
-            <div className="judge-content">
-                {/* MAIN WRAPPER that centers & shifts */}
-                <div className={`judge-main-wrapper ${sidebarOpen ? "shifted" : ""}`}>
-                    <div className="judge-main-layout">
-                        {/* LEFT COLUMN */}
-                        <div className="judge-main-left">
-                            {/* ====== HEADER SECTION ====== */}
-                            <div className="judge-header-section">
-                                <div className="judge-title-description">
-                                    <h2 className="judge-title">{theJudge.judge_name}</h2>
-                                    <h1 className="judge-descriptor judge-label">{t.judge}</h1>
-                                    <Link to={`/city/${theJudge.city}`} style={{ textDecoration: "none" }}>
-                                        <h3 className="judge-descriptor judge-city">{theJudge.city}</h3>
-                                    </Link>
+          <div className="judge-content">
+            <div className={`judge-main-wrapper ${sidebarOpen ? "shifted" : ""}`}>
+              <div className="judge-main-layout">
+                <div className="judge-main-left">
+                  <div className="judge-header-section">
+                    <div className="judge-title-description">
+                        <h2 className="judge-title">{theJudge.judge_name}</h2>
 
-                                    {/* Judge Stats Box */}
-                                    <div className="judge-top-stats">
-                                        <div className="judge-stats-box">
-                                            <p>
-                                                {t.outOf}{" "}
-                                                <span className="judge-cases-amount">{totalDecisions}</span>{" "}
-                                                total {totalDecisions === 1 ? "case" : "cases"} {t.casesFor.toLowerCase()}{" "}
-                                                <strong>{theJudge.judge_name}</strong>,{" "}
-                                                <span className="judge-asylum-granted">
-                                                    {asylumGrantedAmount + otherGrantedAmount}
-                                                </span>{" "}
-                                                {asylumGrantedAmount + otherGrantedAmount === 1 ? "was" : "were"} granted
-                                                asylum or other forms of relief.
-                                            </p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                        <h1 className="judge-descriptor judge-label">
+                        {t.judge}
+                        <img
+                            src={require("../../assets/face-2.png")}
+                            alt="Judge icon"
+                            className="judge-icon"
+                        />
+                        </h1>
 
-                            {/* rates section */}
-                            <div className="judge-rates-section">
-                                <h2 className="judge-section-header judge-rates">{t.averageRates}</h2>
-                                <p className="judge-national-average-note">
-                                    <span className="judge-dash-example">— - — </span> {t.nationalAverageNote}
-                                </p>
-
-                                <div className="judge-donut-charts-container vertical">
-                                    {/* asylum granted */}
-                                    <div className="judge-donut-row">
-                                        <div className="judge-donut-side">
-                                            <div className="judge-donut-chart-div">
-                                                <DonutChart
-                                                    title={t.asylumGranted}
-                                                    percentage={asylumRate}
-                                                    nationalAverage={45}
-                                                    className="judge-asylum-granted-donut-chart"
-                                                    size={180}
-                                                    strokeWidth={20}
-                                                    color="#6CAF5C"
-                                                />
-                                            </div>
-                                            <div className="judge-donut-chart-description">
-                                                <p>{t.asylumGranted}</p>
-                                                <Tooltip text={t.asylumGrantedInfo}>
-                                                    <span className="judge-info-icon">
-                                                        <i className="fas fa-info-circle"></i>
-                                                    </span>
-                                                </Tooltip>
-                                            </div>
-                                        </div>
-
-                                        {/* Text summary for Asylum Granted */}
-                                        <div className="judge-donut-textbox">
-                                            <p>
-                                                <span className="judge-asylum-granted">
-                                                    {asylumGrantedAmount}
-                                                </span>{" "}
-                                                {asylumGrantedAmount === 1 ? "case" : "cases"}{" "}
-                                                {t.outOf.toLowerCase()}{" "}
-                                                <span className="judge-cases-amount">{totalDecisions}</span>{" "}
-                                                total {totalDecisions === 1 ? "case" : "cases"}{" "}
-                                                {t.casesFor.toLowerCase()}{" "}
-                                                <strong>{theJudge.judge_name}</strong> {t.wereGrantedAsylum}
-                                            </p>
-                                        </div>
-                                    </div>
-
-                                    {/* other relief granted */}
-                                    <div className="judge-donut-row">
-                                        <div className="judge-donut-side">
-                                            <div className="judge-donut-chart-div">
-                                                <DonutChart
-                                                    title={t.otherReliefGranted}
-                                                    percentage={otherReliefRate}
-                                                    nationalAverage={12}
-                                                    className="judge-other-relief-donut-chart"
-                                                    size={180}
-                                                    strokeWidth={20}
-                                                    color="#C5FBA3"
-                                                />
-                                            </div>
-                                            <div className="judge-donut-chart-description">
-                                                <p>{t.otherReliefGranted}</p>
-                                                <Tooltip text={t.otherReliefInfo}>
-                                                    <span className="judge-info-icon">
-                                                        <i className="fas fa-info-circle"></i>
-                                                    </span>
-                                                </Tooltip>
-                                            </div>
-                                        </div>
-
-                                        {/* Text summary for Other Relief */}
-                                        <div className="judge-donut-textbox">
-                                            <p>
-                                                <span className="judge-other-granted">
-                                                    {otherGrantedAmount}
-                                                </span>{" "}
-                                                {otherGrantedAmount === 1 ? "case" : "cases"}{" "}
-                                                {t.outOf.toLowerCase()}{" "}
-                                                <span className="judge-cases-amount">{totalDecisions}</span>{" "}
-                                                total {totalDecisions === 1 ? "case" : "cases"}{" "}
-                                                {t.casesFor.toLowerCase()}{" "}
-                                                <strong>{theJudge.judge_name}</strong> {t.wereGrantedOtherRelief}
-                                            </p>
-                                        </div>
-                                    </div>
-
-                                    {/* DENIED CASES */}
-                                    <div className="judge-donut-row">
-                                        <div className="judge-donut-side">
-                                            <div className="judge-donut-chart-div">
-                                                <DonutChart
-                                                    title={t.denied}
-                                                    percentage={deniedRate}
-                                                    nationalAverage={43}
-                                                    className="judge-denied-donut-chart"
-                                                    size={180}
-                                                    strokeWidth={20}
-                                                    color="#FF7A7A"
-                                                />
-                                            </div>
-                                            <div className="judge-donut-chart-description">
-                                                <p>{t.denied}</p>
-                                                <Tooltip text={t.deniedInfo}>
-                                                    <span className="judge-info-icon">
-                                                        <i className="fas fa-info-circle"></i>
-                                                    </span>
-                                                </Tooltip>
-                                            </div>
-                                        </div>
-
-                                        {/* Text summary for Denied */}
-                                        <div className="judge-donut-textbox">
-                                            <p>
-                                                <span className="judge-denied-amount">{deniedAmount}</span>{" "}
-                                                {deniedAmount === 1 ? "case" : "cases"}{" "}
-                                                {t.outOf.toLowerCase()}{" "}
-                                                <span className="judge-cases-amount">{totalDecisions}</span>{" "}
-                                                total {totalDecisions === 1 ? "case" : "cases"}{" "}
-                                                {t.casesFor.toLowerCase()}{" "}
-                                                <strong>{theJudge.judge_name}</strong> {t.wereDenied}
-                                            </p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                        <Link to={`/city/${theJudge.city}`} style={{ textDecoration: "none" }}>
+                        <h3 className="judge-descriptor judge-city">{theJudge.city}</h3>
+                        </Link>
                     </div>
-                </div>
-
-                {/* --- SIDEBAR TOGGLE BUTTON (always visible) --- */}
-                <button
-                    className={`judge-sidebar-toggle ${sidebarOpen ? "open" : ""}`}
-                    onClick={() => setSidebarOpen(!sidebarOpen)}
-                >
-                    {sidebarOpen ? (
-                        <>
-                            ➤
-                            <span className="judge-sidebar-tooltip">{t.hideJudges}</span>
-                        </>
-                    ) : (
-                        <>
-                            ◄
-                            <span className="judge-sidebar-tooltip">{t.showJudges}</span>
-                        </>
-                    )}
-                </button>
-
-                {/* sidebar */}
-                <div className={`judge-sidebar ${sidebarOpen ? "open" : ""}`}>
-                    <div className="judge-sidebar-content">
-                        <h3 className="judge-sidebar-title">
-                            {t.otherJudgesIn} {theJudge.city}
-                        </h3>
-
-                        {/* sort dropdown (sidebar)*/}
-                        <div className="judge-sidebar-sort">
-                            <label htmlFor="judge-sidebar-sort-select" className="judge-sidebar-sort-label">
-                                {t.sortBy}:
-                            </label>
-                            <select
-                                id="judge-sidebar-sort-select"
-                                className="judge-sidebar-sort-select"
-                                value={sortValue}
-                                onChange={(e) => setSortValue(e.target.value)}
-                            >
-                                {dropdownOptions.map((opt) => (
-                                    <option key={opt.value} value={opt.value}>
-                                        {opt.label}
-                                    </option>
-                                ))}
-                            </select>
-                        </div>
-
-                        <div className="judge-sidebar-list">
-                            {sortedJudges.length > 0 &&
-                                sortedJudges.map((judge, index) => (
-                                    <Link
-                                        to={`/judge/${encodeURIComponent(judge.judge_name)}`}
-                                        key={judge.judge_name}
-                                        className="judge-sidebar-judge-link"
-                                        onClick={() => setSidebarOpen(false)}
-                                    >
-                                        <div
-                                            className="judge-sidebar-judge-card"
-                                            style={{ animationDelay: `${index * 0.05}s` }}
-                                        >
-                                            <div className="judge-sidebar-judge-row">
-                                                <div className="judge-sidebar-judge-left">
-                                                    <span className="judge-sidebar-judge-name">
-                                                        {judge.judge_name}
-                                                    </span>
-                                                    <span className="judge-sidebar-judge-cases">
-                                                        {judge.total_decisions} cases
-                                                    </span>
-                                                </div>
-
-                                                {/* Tiny donut on the far right */}
-                                                <div className="judge-sidebar-mini-donut">
-                                                    <DonutChart
-                                                        key={`${judge.judge_name}-${sidebarOpen}`}
-                                                        title=" "
-                                                        percentage={Number(
-                                                            parsePercentage(judge.granted_asylum_percentage)
-                                                        )}
-                                                        size={50}
-                                                        strokeWidth={5}
-                                                        animate={sidebarOpen}
-                                                    />
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </Link>
-                                ))}
-                        </div>
                     </div>
+
+                  <div className="judge-top-stats">
+                    <div className="judge-stats-box">
+                      <p>
+                        {t.outOf}{" "}
+                        <span className="judge-cases-amount">{totalDecisions}</span>{" "}
+                        total {totalDecisions === 1 ? "case" : "cases"}{" "}
+                        {t.casesFor.toLowerCase()} <strong>{theJudge.judge_name}</strong>,{" "}
+                        <span className="judge-asylum-granted">
+                          {asylumGrantedAmount + otherGrantedAmount}
+                        </span>{" "}
+                        {asylumGrantedAmount + otherGrantedAmount === 1 ? "was" : "were"} granted
+                        asylum or other forms of relief.
+                      </p>
+                    </div>
+                  </div>
+      
+                  <div className="judge-rates-section">
+                    <h2 className="judge-section-header judge-rates">{t.averageRates}</h2>
+                    <p className="judge-national-average-note">
+                      <span className="judge-dash-example">— - — </span> {t.nationalAverageNote}
+                    </p>
+      
+                    <div className="judge-donut-charts-container vertical">
+                      <div className="judge-donut-row">
+                        <div className="judge-donut-side">
+                          <div className="judge-donut-chart-div">
+                            <DonutChart
+                              title={t.asylumGranted}
+                              percentage={asylumRate}
+                              nationalAverage={45}
+                              className="judge-asylum-granted-donut-chart"
+                              size={180}
+                              strokeWidth={20}
+                              color="#6CAF5C"
+                            />
+                          </div>
+                          <div className="judge-donut-chart-description">
+                            <p>{t.asylumGranted}</p>
+                            <Tooltip text={t.asylumGrantedInfo}>
+                              <span className="judge-info-icon">
+                                <i className="fas fa-info-circle"></i>
+                              </span>
+                            </Tooltip>
+                          </div>
+                        </div>
+                        <div className="judge-donut-textbox">
+                          <p>
+                            <span className="judge-asylum-granted">
+                              {asylumGrantedAmount}
+                            </span>{" "}
+                            {asylumGrantedAmount === 1 ? "case" : "cases"}{" "}
+                            {t.outOf.toLowerCase()}{" "}
+                            <span className="judge-cases-amount">{totalDecisions}</span>{" "}
+                            total {totalDecisions === 1 ? "case" : "cases"}{" "}
+                            {t.casesFor.toLowerCase()}{" "}
+                            <strong>{theJudge.judge_name}</strong> {t.wereGrantedAsylum}
+                          </p>
+                        </div>
+                      </div>
+                      <div className="judge-donut-row">
+                        <div className="judge-donut-side">
+                          <div className="judge-donut-chart-div">
+                            <DonutChart
+                              title={t.otherReliefGranted}
+                              percentage={otherReliefRate}
+                              nationalAverage={12}
+                              className="judge-other-relief-donut-chart"
+                              size={180}
+                              strokeWidth={20}
+                              color="#C5FBA3"
+                            />
+                          </div>
+                          <div className="judge-donut-chart-description">
+                            <p>{t.otherReliefGranted}</p>
+                            <Tooltip text={t.otherReliefInfo}>
+                              <span className="judge-info-icon">
+                                <i className="fas fa-info-circle"></i>
+                              </span>
+                            </Tooltip>
+                          </div>
+                        </div>
+      
+                        <div className="judge-donut-textbox">
+                          <p>
+                            <span className="judge-other-granted">
+                              {otherGrantedAmount}
+                            </span>{" "}
+                            {otherGrantedAmount === 1 ? "case" : "cases"}{" "}
+                            {t.outOf.toLowerCase()}{" "}
+                            <span className="judge-cases-amount">{totalDecisions}</span>{" "}
+                            total {totalDecisions === 1 ? "case" : "cases"}{" "}
+                            {t.casesFor.toLowerCase()}{" "}
+                            <strong>{theJudge.judge_name}</strong> {t.wereGrantedOtherRelief}
+                          </p>
+                        </div>
+                      </div>
+      
+                      <div className="judge-donut-row">
+                        <div className="judge-donut-side">
+                          <div className="judge-donut-chart-div">
+                            <DonutChart
+                              title={t.denied}
+                              percentage={deniedRate}
+                              nationalAverage={43}
+                              className="judge-denied-donut-chart"
+                              size={180}
+                              strokeWidth={20}
+                              color="#FF7A7A"
+                            />
+                          </div>
+                          <div className="judge-donut-chart-description">
+                            <p>{t.denied}</p>
+                            <Tooltip text={t.deniedInfo}>
+                              <span className="judge-info-icon">
+                                <i className="fas fa-info-circle"></i>
+                              </span>
+                            </Tooltip>
+                          </div>
+                        </div>
+      
+                        <div className="judge-donut-textbox">
+                          <p>
+                            <span className="judge-denied-amount">{deniedAmount}</span>{" "}
+                            {deniedAmount === 1 ? "case" : "cases"}{" "}
+                            {t.outOf.toLowerCase()}{" "}
+                            <span className="judge-cases-amount">{totalDecisions}</span>{" "}
+                            total {totalDecisions === 1 ? "case" : "cases"}{" "}
+                            {t.casesFor.toLowerCase()}{" "}
+                            <strong>{theJudge.judge_name}</strong> {t.wereDenied}
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
                 </div>
+              </div>
             </div>
+      
+            <button
+              className={`judge-sidebar-toggle ${sidebarOpen ? "open" : ""}`}
+              onClick={() => setSidebarOpen(!sidebarOpen)}
+            >
+              {sidebarOpen ? (
+                <>
+                  ➤
+                  <span className="judge-sidebar-tooltip">{t.hideJudges}</span>
+                </>
+              ) : (
+                <>
+                  ◄
+                  <span className="judge-sidebar-tooltip">{t.showJudges}</span>
+                </>
+              )}
+            </button>
+      
+            <div className={`judge-sidebar ${sidebarOpen ? "open" : ""}`}>
+              <div className="judge-sidebar-content">
+                <h3 className="judge-sidebar-title">
+                  {t.otherJudgesIn} {theJudge.city}
+                </h3>
+      
+                <div className="judge-sidebar-sort">
+                  <label htmlFor="judge-sidebar-sort-select" className="judge-sidebar-sort-label">
+                    {t.sortBy}:
+                  </label>
+                  <select
+                    id="judge-sidebar-sort-select"
+                    className="judge-sidebar-sort-select"
+                    value={sortValue}
+                    onChange={(e) => setSortValue(e.target.value)}
+                  >
+                    {dropdownOptions.map((opt) => (
+                      <option key={opt.value} value={opt.value}>
+                        {opt.label}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+      
+                <div className="judge-sidebar-list">
+                  {sortedJudges.length > 0 &&
+                    sortedJudges.map((judge, index) => (
+                      <Link
+                        to={`/judge/${encodeURIComponent(judge.judge_name)}`}
+                        key={judge.judge_name}
+                        className="judge-sidebar-judge-link"
+                        onClick={() => setSidebarOpen(false)}
+                      >
+                        <div
+                          className="judge-sidebar-judge-card"
+                          style={{ animationDelay: `${index * 0.05}s` }}
+                        >
+                          <div className="judge-sidebar-judge-row">
+                            <div className="judge-sidebar-judge-left">
+                              <span className="judge-sidebar-judge-name">
+                                {judge.judge_name}
+                              </span>
+                              <span className="judge-sidebar-judge-cases">
+                                {judge.total_decisions} cases
+                              </span>
+                            </div>
+      
+                            <div className="judge-sidebar-mini-donut">
+                              <DonutChart
+                                key={`${judge.judge_name}-${sidebarOpen}`}
+                                title=" "
+                                percentage={Number(
+                                  parsePercentage(judge.granted_asylum_percentage)
+                                )}
+                                size={50}
+                                strokeWidth={5}
+                                animate={sidebarOpen}
+                              />
+                            </div>
+                          </div>
+                        </div>
+                      </Link>
+                    ))}
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
-    );
-}
+      );
+    }
 
 export default JudgePage;

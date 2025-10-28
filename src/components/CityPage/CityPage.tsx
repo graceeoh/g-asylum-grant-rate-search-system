@@ -286,7 +286,6 @@ function CityPage({ currentLanguage }: CityPageProps) {
             : currentLanguage === "es"
             ? "Este número es el porcentaje de casos en esta ciudad donde se denegaron, ya sea asilo u otro tipo de alivio."
             : "Nimewo sa a se pousantaj ka nan vil sa a ki te refize, kit se azil oswa lòt sekou.";
-    // --- Sidebar labels ---
     const judgesInLabel =
     currentLanguage === "en"
     ? "Judges in"
@@ -308,7 +307,6 @@ function CityPage({ currentLanguage }: CityPageProps) {
     ? "Ocultar Jueces"
     : "Kache Jij yo";
 
-    // --- City stats summary text ---
     const asylumSummaryText =
     currentLanguage === "en"
     ? "were granted asylum."
@@ -347,30 +345,33 @@ function CityPage({ currentLanguage }: CityPageProps) {
           } as React.CSSProperties}
         >
           <div className="city-content">
-            {/* ✅ MAIN WRAPPER that centers & shifts */}
             <div className={`main-wrapper ${sidebarOpen ? "shifted" : ""}`}>
               <div className="main-layout">
-                {/* LEFT COLUMN */}
                 <div className="main-left">
-                  {/* --- CITY HEADER + STATS --- */}
                   <div className="header-section">
                     <div className="city-title-description">
                       <h2 className="city-title">{city}</h2>
-                      <h1 className="city-descriptor label">{cityLabel}</h1>
+
+                      <h1 className="city-descriptor label">
+                        {cityLabel}
+                        <img
+                          src={require("../../assets/map-pin.png")}
+                          alt="City icon"
+                          className="city-icon"
+                        />
+                      </h1>
+
                       <h3 className="city-descriptor judge-count">
                         {cityJudges.length} {judgeLabel}
                       </h3>
-      
-                      {/* ✅ City Stats */}
+
                       <div className="city-top-stats">
                         <div className="city-stats-box">
                           <p>
                             <span className="asylum-granted">
                               {asylumGrantedAmount + otherGrantedAmount}
                             </span>{" "}
-                            {asylumGrantedAmount + otherGrantedAmount === 1
-                              ? "case"
-                              : "cases"}{" "}
+                            {asylumGrantedAmount + otherGrantedAmount === 1 ? "case" : "cases"}{" "}
                             {outOf.toLowerCase()}{" "}
                             <span className="cases-amount">{casesAmount}</span> total{" "}
                             {casesAmount === 1 ? "case" : "cases"} {caseIn} {city}{" "}
@@ -380,15 +381,13 @@ function CityPage({ currentLanguage }: CityPageProps) {
                       </div>
                     </div>
                   </div>
-      
-                  {/* --- AVERAGE RATES --- */}
+
                   <div className="rates-section">
                     <h2 className="section-header rates">{averageRatesLabel}</h2>
                     <p className="national-average-note">
                         <span className="dash-example">— - — </span> {nationalAverageNote}
                     </p>
                     <div className="donut-charts-container vertical">
-                      {/* ASYLUM GRANTED */}
                       <div className="donut-row">
                         <div className="donut-side">
                           <div className="donut-chart-div">
@@ -412,7 +411,6 @@ function CityPage({ currentLanguage }: CityPageProps) {
                           </div>
                         </div>
       
-                        {/* ✅ Text summary for Asylum Granted */}
                         <div className="donut-textbox">
                           <p>
                             <span className="asylum-granted">{asylumGrantedAmount}</span>{" "}
@@ -449,7 +447,7 @@ function CityPage({ currentLanguage }: CityPageProps) {
                           </div>
                         </div>
       
-                        {/* ✅ Text summary for Other Relief */}
+                        {/* Text summary for Other Relief */}
                         <div className="donut-textbox">
                           <p>
                             <span className="other-granted">{otherGrantedAmount}</span>{" "}
@@ -486,7 +484,7 @@ function CityPage({ currentLanguage }: CityPageProps) {
                           </div>
                         </div>
       
-                        {/* ✅ Text summary for Denied */}
+                        {/* Text summary for Denied */}
                         <div className="donut-textbox">
                           <p>
                             <span className="denied-amount">{deniedAmount}</span>{" "}
@@ -504,7 +502,7 @@ function CityPage({ currentLanguage }: CityPageProps) {
               </div>
             </div>
       
-            {/* --- SIDEBAR TOGGLE BUTTON (always visible) --- */}
+            {/* SIDEBAR TOGGLE BUTTON */}
             <button
               className={`sidebar-toggle ${sidebarOpen ? "open" : ""}`}
               onClick={() => setSidebarOpen(!sidebarOpen)}
@@ -522,14 +520,14 @@ function CityPage({ currentLanguage }: CityPageProps) {
               )}
             </button>
       
-            {/* --- SIDEBAR (slides out) --- */}
+            {/* SIDEBAR */}
             <div className={`sidebar ${sidebarOpen ? "open" : ""}`}>
               <div className="sidebar-content">
                 <h3 className="sidebar-title">
                   {judgesInLabel} {city}
                 </h3>
       
-                {/* === Sort Dropdown for Sidebar === */}
+                {/* Sort Dropdown for Sidebar */}
                 <div className="sidebar-sort">
                   <label htmlFor="sidebar-sort-select" className="sidebar-sort-label">
                     {sortByLabel}:
@@ -571,7 +569,7 @@ function CityPage({ currentLanguage }: CityPageProps) {
                               </span>
                             </div>
       
-                            {/* ✅ Tiny donut on the far right */}
+                            {/* Tiny donut */}
                             <div className="sidebar-mini-donut">
                               <DonutChart
                                 key={`${judge.judge_name}-${sidebarOpen}`}
@@ -595,5 +593,5 @@ function CityPage({ currentLanguage }: CityPageProps) {
         </div>
       );
       
-                                }
-                                export default CityPage;
+}
+export default CityPage;

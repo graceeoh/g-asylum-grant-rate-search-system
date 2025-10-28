@@ -3,7 +3,6 @@ h2 {
     padding-bottom: 5px;
   }
   
-  /* Header section */
   .section-header {
     position: relative;
     text-align: center;
@@ -21,7 +20,6 @@ h2 {
     filter: drop-shadow(0 0 6px rgba(108, 175, 92, 0.25));
   }
   
-  /* elegant underline bar (not the default underline) */
   .section-header::after {
     content: "";
     position: absolute;
@@ -56,7 +54,7 @@ h2 {
   .city-descriptor.label {
     font-size: 22px;
     font-weight: 500;
-    color: #c5fba3; /* or whatever your label color is */
+    color: #c5fba3; 
   }
   
   .city-descriptor.judge-count {
@@ -81,21 +79,19 @@ h2 {
     color: #90969c;
   }
   
-  /* Rates section layout */
   .rates-section {
     margin-top: 40px;
     padding: 0 20px;
-    text-align: center;     /* centers heading and inline content */
+    text-align: center;    
     display: flex;
     flex-direction: column;
-    align-items: center;    /* centers children like the donuts */
+    align-items: center;   
   }
     .section-header {
     text-align: left;
     font-size: 20px;
     margin-bottom: 5px;
   }
-    /* Donut chart container */
   .donut-charts-container {
     display: flex;
     justify-content: flex-start;
@@ -103,7 +99,6 @@ h2 {
     gap: 60px;
   }
   
-  /* Individual donut chart section */
   .cases-granted-section,
   .asylum-granted-section,
   .other-relief-section,
@@ -114,7 +109,6 @@ h2 {
     align-items: center;
   }
   
-  /* Donut descriptor text */
   .cases-granted-section p,
   .asylum-granted-section p,
   .other-relief-section p,
@@ -127,7 +121,6 @@ h2 {
     color: rgb(230, 230, 230);
   }
   
-  /* Info icon */
   .info-icon-city {
     display: flex;
     justify-content: center;
@@ -143,18 +136,17 @@ h2 {
     transform: scale(1.1);
   }
   
-  /* Donut label + info bubble */
   .donut-chart-description {
     display: flex;
     flex-direction: row;
     align-items: center;
-    justify-content: center;    /* ✅ horizontally centered */
+    justify-content: center;    
     gap: 6px;
     margin-top: 12px;
-    width: auto;                /* ✅ shrink to fit content */
+    width: auto;               
     text-align: center;
     position: relative;
-    left: 20px; /* try 8-12px depending on what looks right */
+    left: 20px; 
   
   }
       
@@ -166,7 +158,6 @@ h2 {
     text-align: center;
   }
   
-  /* Donut chart wrapper */
   .donut-chart-div {
     display: flex;
     justify-content: center;
@@ -174,7 +165,7 @@ h2 {
     width: 200px;
     height: 200px;
     margin: 0 auto;
-    flex-shrink: 0; /* ✅ prevents drift */
+    flex-shrink: 0; 
   }
     
   .stats-section {
@@ -258,7 +249,6 @@ h2 {
     pointer-events: none;
   }
   
-  /* Background + parallax */
   .city-page {
     background-position: center top !important;
     background-attachment: local !important;
@@ -277,7 +267,7 @@ h2 {
     top: -400px;
     left: 0;
     width: 300vh;
-    height: 420vh; /* tall enough to cover whole scroll area */
+    height: 420vh; 
     background-image: 
       linear-gradient(
         to bottom,
@@ -286,7 +276,7 @@ h2 {
         rgba(0, 0, 0, 0.65) 100%
       ),
       var(--bg-image);
-    background-size: cover; /* 🟢 makes the image expand to fill */
+    background-size: cover; 
     background-position: center center;
     background-repeat: no-repeat;
     transform: translateZ(-0.9px) scale(1.6) translateY(200px);
@@ -301,7 +291,6 @@ h2 {
     min-height: 200vh;
   }
   
-  /* ====== Two-Column Layout ====== */
   .main-layout {
     display: flex;
     flex-direction: row;
@@ -312,7 +301,6 @@ h2 {
     padding: 0 40px;
   }
   
-  /* LEFT COLUMN */
   .main-left {
     flex: 1;
     max-width: 60%;
@@ -327,7 +315,6 @@ h2 {
     width: 100%;
   }
     
-  /* SIDEBAR */
   .sidebar {
     position: fixed;
     right: 60px;
@@ -392,15 +379,12 @@ h2 {
   .sidebar-judge-cases {
     font-size: 13px;
     color: #90969c;
-    text-align: left;       /* ✅ force left alignment */
-    width: 100%;            /* ensures full line width for proper left edge */
-    margin-left: 10px;       /* optional: tiny spacing for better balance */
+    text-align: left;      
+    width: 100%;            
+    margin-left: 10px;       
   
   }
   
-  /* --- Mini Donut Chart in Sidebar --- */
-/* === Fix donut vertical alignment === */
-/* === Sidebar Donut Alignment === */
 .sidebar-mini-donut {
     position: relative;
     width: 50px;
@@ -408,15 +392,15 @@ h2 {
     display: flex;
     justify-content: center;
     align-items: center;
-    align-self: center; /* centers donut within the judge row */
-    margin-top: 30px; /* 🟢 moves the entire donut slightly down */
+    align-self: center; 
+    margin-top: 30px; 
   }
   
   .sidebar-mini-percent {
     position: absolute;
     top: 50%;
     left: 50%;
-    transform: translate(-50%, -50%); /* 🟢 perfect centering */
+    transform: translate(-50%, -50%); 
     font-size: 2px;
     font-weight: 700;
     color: #c5fba3;
@@ -429,11 +413,10 @@ h2 {
     display: block;
     margin: 0;
     padding: 0;
-    transform: translateY(-20px); /* 🟢 lifts the donut slightly upward */
-  }
-      /* centers the % text in the donut */  
-    
-  /* City stats under title */
+    transform: translateY(-20px); 
+
+    }
+
   .city-top-stats {
     margin-top: 10px;
     font-size: 15px;
@@ -441,36 +424,28 @@ h2 {
     line-height: 1.5;
     max-width: 550px;
   }
-  
-  /* ==============================
-     UNIFIED DONUT LAYOUT + CENTERING
-     ============================== */
-  
-  /* One row per donut + its description */
   .donut-row {
     display: flex;
     flex-direction: row;
     align-items: center;
-    justify-content: center;    /* ✅ center the whole pair horizontally */
-    gap: 60px;                  /* slightly smaller spacing */
-    margin: 0px 0;             /* vertical spacing between rows */
+    justify-content: center;    
+    gap: 60px;                  
+    margin: 0px 0;            
     width: 100%;
-    text-align: left;           /* text alignment stays natural */
+    text-align: left;         
   }
       
-  /* Column for each donut itself */
   .donut-side {
     display: flex;
     flex-direction: column;
-    align-items: center;       /* center horizontally */
-    justify-content: center;   /* center vertically */
+    align-items: center;      
+    justify-content: center;  
     text-align: center;
-    width: 100%;               /* ✅ ensures the info label centers under donut */
+    width: 100%;             
   }
     
-  /* Text boxes that hold auto data sentences */
   .donut-textbox {
-    flex: 0 1 400px;             /* ✅ fixed max width to stop overflow */
+    flex: 0 1 400px;        
     background-color: rgba(255, 255, 255, 0.04);
     border-left: 3px solid rgba(197, 251, 163, 0.3);
     padding: 16px 20px;
@@ -481,7 +456,7 @@ h2 {
     backdrop-filter: blur(4px);
     box-shadow: 0 0 15px rgba(0, 0, 0, 0.15);
     text-align: left;
-    max-width: 450px;           /* ✅ keeps it balanced visually */
+    max-width: 450px;       
   }
     
   .donut-textbox .asylum-granted,
@@ -501,9 +476,6 @@ h2 {
   }
   
 
-  /* --- Collapsible Sidebar --- */  
-  
-  /* --- Collapsible Sidebar --- */
 .sidebar {
     position: fixed;
     top: 100px;
@@ -517,18 +489,15 @@ h2 {
     color: rgb(230, 230, 230);
     backdrop-filter: blur(8px);
     overflow-y: auto;
-    transform: translateX(100%);   /* hidden off-screen */
+    transform: translateX(100%);  
     transition: transform 0.4s ease;
     z-index: 50;
   }
   
-  /* When open */
   .sidebar.open {
     transform: translateX(0);
   }
   
-  /* --- Always visible toggle button --- */
-/* --- Sidebar container --- */
 .sidebar {
     position: fixed;
     top: 100px;
@@ -548,18 +517,15 @@ h2 {
     z-index: 90;
   }
   
-  /* When open */
   .sidebar.open {
     transform: translateX(0);
     opacity: 1;
   }
   
-  /* Sidebar content always visible when open */
   .sidebar-content {
     opacity: 1;
   }
   
-  /* Sidebar cards visible for debugging */
   .sidebar-judge-card {
     background-color: rgba(255, 255, 255, 0.08);
     border-radius: 8px;
@@ -567,8 +533,6 @@ h2 {
     margin-bottom: 10px;
   }
   
-  /* --- Toggle button --- */
-/* --- Sidebar Toggle Button --- */
 .sidebar-toggle {
     position: fixed;
     top: 7%;
@@ -600,38 +564,31 @@ h2 {
   }
   
   .sidebar.open ~ .city-content {
-    margin-right: 300px; /* gently shift left */
+    margin-right: 300px;
   }
     
-
-  /* ===========================
-   CONTENT CENTER + SHIFT ANIMATION
-   =========================== */
 
 .main-wrapper {
     transition: transform 0.5s ease, margin 0.5s ease;
     display: flex;
-    justify-content: center;   /* center when sidebar is closed */
+    justify-content: center; 
     width: 100%;
   }
   
-  /* Center content */
   .main-layout {
     transition: all 0.5s ease;
-    max-width: 900px;          /* keeps content readable */
+    max-width: 900px;         
     width: 100%;
     display: flex;
     flex-direction: column;
-    align-items: center;       /* centers vertically */
+    align-items: center;     
   }
   
-  /* When sidebar opens → slide content left */
   .main-wrapper.shifted {
-    transform: translateX(-160px); /* how far it moves left */
-    justify-content: flex-start;   /* anchor to left */
+    transform: translateX(-160px); 
+    justify-content: flex-start; 
   }
   
-  /* Optional: fade slightly when sidebar open */
   .main-wrapper.shifted .main-layout {
     opacity: 0.95;
   }
@@ -641,7 +598,6 @@ h2 {
     transition: transform 0.5s ease;
   }
   
-  /* --- Hover Label for Sidebar Button --- */
 .sidebar-tooltip {
     position: absolute;
     left: -130px;
@@ -665,33 +621,32 @@ h2 {
   
   
   .city-stats-box {
-    background: rgba(255, 255, 255, 0.15); /* translucent white */
-    backdrop-filter: blur(10px); /* frosted glass effect */
-    -webkit-backdrop-filter: blur(10px); /* Safari support */
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(10px); 
+    -webkit-backdrop-filter: blur(10px); 
     border: 1px solid rgba(255, 255, 255, 0.25);
     border-radius: 15px;
     padding: 15px;
     box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
-    color: white; /* adjust if your background is dark */
+    color: white; 
     width: fit-content;
     margin-top: 20px;
 }
 
 .sidebar-judge-link {
-  text-decoration: none; /* remove underline */
-  color: inherit;        /* use same text color as parent */
-  display: block;        /* makes whole card clickable */
+  text-decoration: none; 
+  color: inherit;        
+  display: block;    
 }
 
 .sidebar-judge-link:visited {
-  color: inherit;        /* prevents purple visited color */
+  color: inherit;      
 }
 
 .sidebar-judge-link:hover .sidebar-judge-name {
-  color: #c5fba3;        /* optional: subtle highlight on hover */
+  color: #c5fba3;       
 }
 
-/* === Sidebar Sort Dropdown === */
 .sidebar-sort {
     display: flex;
     align-items: center;
@@ -727,7 +682,6 @@ h2 {
   .sidebar-sort-select:focus {
     border-color: #c5fba3;
   }
-/* === Smooth Sort Animation === */
 @keyframes cardFadeIn {
     0% {
       opacity: 0;
@@ -763,9 +717,9 @@ h2 {
   }
   
   .national-average-note .dash-example {
-    letter-spacing: -2px;   /* 👈 pulls the dashes closer together */
+    letter-spacing: -2px;  
     font-weight: 500;
-    color: #ffffff;         /* optional: make them brighter for visibility */
+    color: #ffffff;       
   }
   
   .dash-example {
@@ -798,4 +752,18 @@ h2 {
     opacity: 1;
     transform: translateY(0);
   }
+
+  .label {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px; 
+  }
+  
+  .city-icon {
+    width: 25px;
+    height: 25px;
+    filter: contrast(1.5) brightness(2); 
+    vertical-align: middle;
+  }
+  
   
